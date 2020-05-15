@@ -19,7 +19,6 @@
 
 >  [背景](/docs/background.md) | [官网]() | [社区](/) 
 
-
 ## 技术选型
 
 ### 开发环境
@@ -42,6 +41,14 @@
 
 ### 后端主要技术栈
 
+|         技术         | 文档                                                         | 备注                                                         |
+| :------------------: | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Spring Cloud Alibaba | [文档](https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md) | 致力于提供分布式应用服务开发的一站式解决方案, 已经从Apache孵化器毕业 |
+|                      |                                                              |                                                              |
+|                      |                                                              |                                                              |
+
+
+
 ### 前端主要技术栈
 
 ### 自动化运维
@@ -54,24 +61,70 @@
 
 ### PaaS
 
-|   名称   |         地址          | 端口 |     备注     |
-| :------: | :-------------------: | :--: | :----------: |
-|  又拍云  |    oss.iscolt.com     |      |              |
-|  Github  | www.github.com/iscolt |      | 代码仓库地址 |
-| AliMaven |                       |      |  Maven仓库   |
+|   名称   |               地址                | 端口 |     备注     |
+| :------: | :-------------------------------: | :--: | :----------: |
+|  AliOSS  | micm.oss-cn-shanghai.aliyuncs.com |      |   文件存储   |
+|  Github  |       www.github.com/iscolt       |      | 代码仓库地址 |
+| AliMaven |                                   |      |  Maven仓库   |
 
 ### Services
 
-|    名称    |      地址       | 端口 |      备注      |
-| :--------: | :-------------: | :--: | :------------: |
-| micm-nacos | 192.168.153.130 | 8848 | 服务注册与发现 |
+|   名称   |      地址       |   端口    |             备注              |
+| :------: | :-------------: | :-------: | :---------------------------: |
+|  nacos   | 192.168.153.130 |   8848    | 服务注册与发现/分布式配置管理 |
+|  redis   | 192.168.153.130 |   6379    |           令牌缓存            |
+|  mysql   |    localhost    |   3306    |           数据存储            |
+| sentinel | 192.168.153.130 |   8080    |        服务熔断, 限流         |
+| RocketMQ | 192.168.153.131 | 8080/9876 |           消息队列            |
+|  mysql   | 192.168.153.132 | 8080/3306 |          数据存储(x)          |
+|  redis   | 192.168.153.132 |   6379    |          令牌缓存(x)          |
+
+
+
+### Middleware
+
+
+
+### Data
+
+
+
+### Gateway
+
+
+
+### Provider
+
+
+
+### Business
+
+
+
+### Message
+
+
+
+### Cloud
+
+
+
+### 其他
+
+> 纯 jar, 无须运行的
+
+- commons
+- configuration
+- dependencies
+
+
 
 ## 开发人员
 
 | 成员                                                         |                  主页                   |         工作内容         | 备注 |
 | :----------------------------------------------------------- | :-------------------------------------: | :----------------------: | :--: |
-| ![isColt](https://avatars1.githubusercontent.com/u/33213215?s=32&v=4)Colt | [github](https://www.github.com/iscolt) | 校织网整体架构, 后端开发 |      |
-| ![Gemyi](https://avatars1.githubusercontent.com/u/50950109?s=32&v=4)Gemyi | [github](https://www.github.com/Gemyi)  |     校织网移动端开发     |      |
+| ![isColt](https://avatars1.githubusercontent.com/u/33213215?s=32&v=4)Colt | [github](https://www.github.com/iscolt) | 校织网整体架构、后端开发 |      |
+| ![Gemyi](https://avatars1.githubusercontent.com/u/50950109?s=32&v=4)Gemyi | [github](https://www.github.com/Gemyi)  |  校织网移动端、前端开发  |      |
 
 ## 许可证
 
@@ -81,6 +134,3 @@
 
 ## 贡献
 参考 [CONTRIBUTION](/CONTRIBUTION.md)。
-
-
-

@@ -1,0 +1,50 @@
+base:
+  config:
+    mysql:
+      hostname: localhost
+      port: 3306
+    nacos:
+      hostname: 192.168.153.130
+      port: 8848
+
+spring:
+  application:
+    name: sys-admin-provider
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${base.config.mysql.hostname}:${base.config.mysql.port}/micm?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
+    username: root
+    password: 5211
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  # Jpa
+  jpa:
+    # 显示SQL
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+
+dubbo:
+  scan:
+    base-packages: com.iscolt.micm.provider.service
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://${base.config.nacos.hostname}
+    port: ${base.config.nacos.port}
+  provider:
+    timeout: 6000
+

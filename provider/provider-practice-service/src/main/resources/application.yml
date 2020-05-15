@@ -1,0 +1,116 @@
+base:
+  config:
+    mysql01:
+      hostname: localhost
+      port: 3306
+    mysql02:
+      hostname: localhost
+      port: 3306
+    nacos:
+      hostname: 192.168.153.130
+      port: 8848
+
+spring:
+  application:
+    name: practice-service-provider
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    # 属性配置
+    props:
+      # 是否开启 SQL 显示，默认值: false
+      sql:
+        show: true
+    # 数据源配置，可配置多个
+    datasource:
+      names: ds1,ds2
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://${base.config.mysql01.hostname}:${base.config.mysql01.port}/micm_tenant_1?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
+        username: root
+        password: 5211
+        hikari:
+          minimum-idle: 5
+          idle-timeout: 600000
+          maximum-pool-size: 10
+          auto-commit: true
+          pool-name: MyHikariCP
+          max-lifetime: 1800000
+          connection-timeout: 30000
+          connection-test-query: SELECT 1
+      ds2:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://${base.config.mysql02.hostname}:${base.config.mysql02.port}/micm_tenant_2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
+        username: root
+        password: 5211
+        hikari:
+          minimum-idle: 5
+          idle-timeout: 600000
+          maximum-pool-size: 10
+          auto-commit: true
+          pool-name: MyHikariCP
+          max-lifetime: 1800000
+          connection-timeout: 30000
+          connection-test-query: SELECT 1
+    # 分片规则配置
+    sharding:
+      # 绑定表规则列表
+      binding-tables: service_practice,service_practice_category,service_practice_organization,service_user_practice,tenant_user_info
+      # 默认数据库分片策略，同分库策略
+      default-database-strategy:
+        inline:
+          # 分片算法行表达式，需符合 groovy 语法
+          # 此处根据 tenant_id 分片
+          # 如果 tenant_id 为1则落入micm_tenant_1库即 ds1 匹配的数据源
+          # 如果 tenant_id 为2则落入micm_tenant_2库即 ds2 匹配的数据源
+          algorithm-expression: ds$->{tenant_id}
+          # 分片列名称
+          sharding-column: tenant_id
+      # 数据分片规则配置，可配置多个
+      tables:
+        # 逻辑表名称
+        service_practice:
+          # 由数据源名 + 表名组成，以小数点分隔
+          actual-data-nodes: ds$->{1..2}.service_practice
+        service_practice_category:
+          # 由数据源名 + 表名组成，以小数点分隔
+          actual-data-nodes: ds$->{1..2}.service_practice_category
+        service_practice_organization:
+          actual-data-nodes: ds$->{1..2}.service_practice_organization
+        service_user_practice:
+          # 由数据源名 + 表名组成，以小数点分隔
+          actual-data-nodes: ds$->{1..2}.service_user_practice
+        tenant_user_info:
+          # 由数据源名 + 表名组成，以小数点分隔
+          actual-data-nodes: ds$->{1..2}.tenant_user_info
+#          # 分表策略，同分库策略
+#          table-strategy:
+#            inline:
+#              # 此处根据 order_id 分片
+#              # 如果 order_id 为奇数则落入奇数表即 tb_order_1
+#              # 如果 order_id 为偶数则落入偶数表即 tb_order_0
+#              algorithm-expression: tb_order_$->{order_id % 2}
+#              # 分片列名称
+#              sharding-column: order_id
+  # Jpa
+  jpa:
+    # 显示SQL
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+
+dubbo:
+  scan:
+    base-packages: com.iscolt.micm.provider.service
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://${base.config.nacos.hostname}
+    port: ${base.config.nacos.port}
+  provider:
+    timeout: 6000

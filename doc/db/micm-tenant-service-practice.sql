@@ -1,0 +1,88 @@
+CREATE TABLE `tenant_user_info` (
+`id` bigint(64) NOT NULL COMMENT '这里使用分布式id',
+`user_id` int(11) NOT NULL COMMENT '绑定系统用户id',
+`tenant_id` int(11) NOT NULL COMMENT '租户id， 用于区别存库',
+`name` varchar(255) NOT NULL COMMENT '真实姓名',
+`sex` varchar(255) NULL COMMENT '性别',
+`age` int(3) NULL COMMENT '年龄',
+`birthday` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+`highest_of_education` varchar(255) NULL COMMENT '最高学历',
+`level` varchar(255) NULL COMMENT '职位（学生，教师，。。）',
+`country` varchar(255) NULL COMMENT '国家',
+`province` varchar(255) NULL COMMENT '省份',
+`city` varchar(255) NULL COMMENT '市',
+`county` varchar(255) NULL COMMENT '县（区）',
+`address` varchar(255) NULL COMMENT '详情地址（乡镇，门牌）',
+`id_number` int NULL COMMENT '身份证号',
+`id_card_positive` varchar(255) NULL COMMENT '身份证正面',
+`id_cart_back` varchar(255) NULL COMMENT '身份证背面',
+`nation` varchar(255) NULL COMMENT '民族',
+`native_place` varchar(255) NULL COMMENT '籍贯',
+`ename` varchar(255) NULL COMMENT '英文名',
+`marital_status` varchar(255) NULL COMMENT '婚姻状况',
+`photo` varchar(255) NULL COMMENT '正冠照',
+`zodiac` varchar(255) NULL COMMENT '属相',
+`constellation` varchar(255) NULL COMMENT '星座',
+`blood_type` varchar(255) NULL COMMENT '血型',
+`demicile` varchar(255) NULL COMMENT '户籍所在地',
+`political_outlook` varchar(255) NULL COMMENT '政治面貌',
+`time_to_join_the_party` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入党时间',
+`qq` varchar(255) NULL COMMENT 'QQ',
+`wechat` varchar(255) NULL COMMENT '微信',
+`now_city` varchar(255) NULL COMMENT '现居城市',
+`emergency_contact` varchar(255) NULL COMMENT '紧急联系人',
+`emergency_contact_number` int NULL COMMENT '紧急联系人电话',
+`bank_card_number` int NULL COMMENT '银行卡号',
+`opening_bank` varchar(255) NULL COMMENT '开户行',
+`educational_type` varchar(255) NULL COMMENT '学历类型',
+`graduate_school` varchar(255) NULL COMMENT '毕业学校',
+`enrolment_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '入学时间',
+`graduation_time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '毕业时间',
+`major` varchar(255) NULL COMMENT '专业',
+`description` varchar(255) NULL COMMENT '描述， 备注',
+`credit` int(11) NULL COMMENT '学分',
+`integral` int(11) NULL COMMENT '积分',
+PRIMARY KEY (`id`) 
+)
+COMMENT = '租户用户信息， 绑定系统用户表';
+CREATE TABLE `service_practice_category` (
+`id` bigint(64) NOT NULL,
+`parent_id` bigint(64) NOT NULL COMMENT '父id',
+`tenant_id` int(11) NULL COMMENT '租户id',
+`name` varchar(255) NULL,
+`ename` varchar(255) NULL COMMENT '英文名',
+`description` varchar(255) NULL COMMENT '描述',
+`created` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`) 
+)
+COMMENT = '实践服务分类
+';
+CREATE TABLE `service_practice` (
+`id` bigint(64) NOT NULL,
+`title` varchar(255) NULL COMMENT '活动标题',
+`icon` varchar(255) NULL COMMENT '活动图标',
+`tenant_id` int(11) NULL COMMENT '租户id',
+`user_id` int(11) NULL COMMENT '创建人， 创建人可以设置负责人，签退/到员，也就是为角色添加权限',
+`category_id` bigint(64) NULL COMMENT '分类id',
+`begin` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始时间',
+`end` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '结束时间',
+`integral` int(2) NULL COMMENT '活动积分',
+`organization` varchar(255) NULL COMMENT '组织，租户下面得组织(备用)',
+`level` varchar(255) NULL COMMENT '等级，省级，校级，院级。。。',
+`address` varchar(255) NULL COMMENT '地址',
+`description` varchar(255) NULL COMMENT '描述',
+`url` varchar(255) NULL COMMENT '活动链接（备用)',
+`status` bit(1) NULL COMMENT '1发布，0未发布（可以更多）',
+`created` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+`updated` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`) 
+);
+CREATE TABLE `service_user_practice` (
+`id` bigint(64) NOT NULL,
+`user_id` int NOT NULL COMMENT '用户id， 也可以换成租户用户信息表id',
+`practice_id` bigint(64) NOT NULL COMMENT '活动id',
+`status` bit(1) NULL COMMENT '1正常参加，0缺席，2未签到（迟到），3未签退（早退）',
+`created` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`) 
+)
+COMMENT = '用户活动表， 分库分表， 使用分布式id， 雪花算法';

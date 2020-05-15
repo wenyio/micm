@@ -1,0 +1,77 @@
+base:
+  config:
+    nacos:
+      hostname: 192.168.153.130
+      port: 8848
+    rocketmq:
+      hostname: 192.168.153.131
+      port: 9876
+    redis:
+      hostname: 192.168.153.132
+      port: 6379
+
+spring:
+  application:
+    name: message
+  mail:
+    host: smtp.qq.com
+    # 你的邮箱授权码
+    password: mftitbnsfeeufebe
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    # 发送邮件的邮箱地址
+    username: 1329208516@qq.com
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: ${base.config.rocketmq.hostname}:${base.config.rocketmq.port}
+        bindings:
+          sys-log-topic: {consumer.orderly: true}
+          sys-email-topic: {consumer.orderly: true}
+      bindings:
+        # consumer.maxAttempts
+        # 消息最大可以被尝试消费的次数，包含第一次投递
+        # 设为 1，表示不重试，注意该值必须大于 0
+        sys-log-topic: {destination: sys-log-topic, content-type: text/plain, group: sys-log-group, consumer.maxAttempts: 1}
+        sys-email-topic: {destination: sys-email-topic, content-type: text/plain, group: sys-email-group, consumer.maxAttempts: 1}
+  redis:
+    host: ${base.config.redis.hostname}
+    port: ${base.config.redis.port}
+    password: 5211
+    # 集群配置，上生产后使用
+    #   cluster:
+    #     nodes: ${base.config.redis.hostname}:${base.config.redis.port}
+    # 我们使用 Lettuce 客户端，比 Jedis 更高效
+    lettuce:
+      # 连接池配置
+      pool:
+        # 连接池中的最小空闲连接，默认 0
+        min-idle: 0
+        # 连接池中的最大空闲连接，默认 8
+        max-idle: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制），默认 -1ms
+        max-wait: -1ms
+        # 连接池最大连接数（使用负值表示没有限制），默认 8
+        max-active: 8
+
+dubbo:
+  scan:
+    base-packages: com.iscolt.micm.message.consumer
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://${base.config.nacos.hostname}
+    port: ${base.config.nacos.port}
+
+server:
+  port: 20001

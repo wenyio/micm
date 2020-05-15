@@ -1,0 +1,2631 @@
+{
+	"info": {
+		"_postman_id": "a05ca364-c432-4dfa-89ec-8a9d5e49e949",
+		"name": "micm-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "本地环境",
+			"item": [
+				{
+					"name": "个人信息",
+					"item": [
+						{
+							"name": "个人信息",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:9002/profile/info/admin?access_token=d33cd2d9-04d4-4e08-8659-77a71602f37a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002",
+									"path": [
+										"profile",
+										"info",
+										"admin"
+									],
+									"query": [
+										{
+											"key": "access_token",
+											"value": "d33cd2d9-04d4-4e08-8659-77a71602f37a"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "用户管理",
+					"item": [
+						{
+							"name": "用户注册",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"iscolt\",\n\t\"password\": \"123456\",\n\t\"email\": \"12@qq.com\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9001/reg",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"reg"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "请求令牌",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "client",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "secret",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9001/oauth/token",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"oauth",
+										"token"
+									]
+								},
+								"description": "oauth2"
+							},
+							"response": []
+						},
+						{
+							"name": "用户登录",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"123456\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9001/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"user",
+										"login"
+									]
+								},
+								"description": "请求令牌基础上的登录"
+							},
+							"response": []
+						},
+						{
+							"name": "用户信息",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:9001/user/info?access_token=d33cd2d9-04d4-4e08-8659-77a71602f37a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"user",
+										"info"
+									],
+									"query": [
+										{
+											"key": "access_token",
+											"value": "d33cd2d9-04d4-4e08-8659-77a71602f37a"
+										}
+									]
+								},
+								"description": "拿Token获取用户信息"
+							},
+							"response": []
+						},
+						{
+							"name": "用户注销",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "access_token",
+											"value": "a853806d-f13d-4747-90cc-5ea73c8ec3cb",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9001/user/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"user",
+										"logout"
+									]
+								},
+								"description": "退出登录\n"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "消息队列",
+					"item": [
+						{
+							"name": "管理员登陆日志",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "d29a4c14-9de4-492d-b554-3061c47f8180",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"adminId\": 4,\n\t\"createTime\": \"\",\n\t\"ip\": \"0.0.0.0\",\n\t\"address\": \"0.0.0.0\",\n\t\"userAgent\": \"0.0.0.0\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:10002/message/admin/login/log",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "10002",
+									"path": [
+										"message",
+										"admin",
+										"login",
+										"log"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "云服务",
+					"item": [
+						{
+							"name": "上传文件",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "c52abdb0-a4ba-4b67-92a0-a5add3e95085",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "multipartFile",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:10002/cloud/upload",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "10002",
+									"path": [
+										"cloud",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "本地网关(后台管理)",
+			"item": [
+				{
+					"name": "用户管理",
+					"item": [
+						{
+							"name": "用户登录",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"123456\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "用户信息",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "c5e7b988-3ce8-447c-bcaf-1f2038d2993e",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/user/info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"user",
+										"info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "用户注册",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"user05\",\n\t\"password\": \"123456\",\n\t\"email\": \"12@qq.com\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/user/reg",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"user",
+										"reg"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查询所有用户",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "f7dce5f2-8fb0-45b6-8559-2cab1cef9acb",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "size",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "page",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"users"
+									]
+								},
+								"description": "查询对应租户下的所有用户"
+							},
+							"response": []
+						},
+						{
+							"name": "更改用户状态",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "f7dce5f2-8fb0-45b6-8559-2cab1cef9acb",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/users/status/colt",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"status",
+										"colt"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "用户假删除",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "a6c93a3f-820e-4661-b6d8-8750d559383f",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/users/delete/colt",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"delete",
+										"colt"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查询用户角色",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "bc65258e-da61-4894-8f73-5b0a9235d659",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/users/getRole",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"getRole"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "用户添加",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "14ec9e86-47ac-4f4a-8c44-c0f8a3abe6fc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"user03\",\n\t\"password\": \"123456\",\n\t\"email\": \"12@qq.com\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/users/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"add"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "个人信息",
+					"item": [
+						{
+							"name": "个人信息",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "c52abdb0-a4ba-4b67-92a0-a5add3e95085",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/profile/info/admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"profile",
+										"info",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "更新信息",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "0e562805-8cc8-44e2-9c23-15db4ecb6c20",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 4,\n\t\"username\": \"admin\",\n\t\"avatar\": \"https://wiki.iscolt.com/_media/icon.png1\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/profile/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"profile",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "更新密码",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "76e40829-c643-40d4-9b29-4d48907b15ed",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"admin\",\n\t\"oldPassword\": \"123456\",\n\t\"newPassword\": \"123456\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/profile/modify/password",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"profile",
+										"modify",
+										"password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "更新头像",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "c52abdb0-a4ba-4b67-92a0-a5add3e95085",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"admin\",\n\t\"path\": \"https://wiki.iscolt.com/_media/icon.png\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/profile/modify/avatar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"profile",
+										"modify",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "云服务",
+					"item": [
+						{
+							"name": "文件上传",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "c52abdb0-a4ba-4b67-92a0-a5add3e95085",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "multipartFile",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/cloud/upload",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"cloud",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "人脸登录",
+					"item": [
+						{
+							"name": "更新照片",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "03c54486-b52c-4ca3-9935-e3e49e829d6a",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"admin\",\n\t\"path\": \"http://micm.oss-cn-shanghai.aliyuncs.com/99605592-e599-4f67-89e0-6c4d041613e4.jpg\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/profile/modify/face",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"profile",
+										"modify",
+										"face"
+									]
+								},
+								"description": "用户人脸识别"
+							},
+							"response": []
+						},
+						{
+							"name": "获取二维码",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/user/faceLogin/qrcode",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"user",
+										"faceLogin",
+										"qrcode"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "检查二维码",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/user/faceLogin/qrcode/1246409550193205248",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"user",
+										"faceLogin",
+										"qrcode",
+										"1246409550193205248"
+									]
+								},
+								"description": "查询二维码扫描状态"
+							},
+							"response": []
+						},
+						{
+							"name": "检查面部信息",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/user/faceLogin/checkFace",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"user",
+										"faceLogin",
+										"checkFace"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "人脸登录",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/user/faceLogin/1246409550193205248",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"user",
+										"faceLogin",
+										"1246409550193205248"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "角色管理",
+					"item": [
+						{
+							"name": "获取所有角色",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "c452a68f-1ab2-4c67-9efd-9a9f56b5454d",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/roles",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "删除角色",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6d0eeb6c-800d-4053-bfac-e44abc257fd4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/roles/delete/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"roles",
+										"delete",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "更新角色",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6d0eeb6c-800d-4053-bfac-e44abc257fd4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 5,\r\n  \"parentId\": 4, \r\n  \"name\": \"测试四级\",\r\n  \"enname\": \"four\",\r\n  \"description\": \"更新一下\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/roles/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"roles",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "添加角色",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/roles/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"roles",
+										"add"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "权限管理",
+					"item": [
+						{
+							"name": "获取所有权限",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7e0082cc-0477-442a-8c40-1f2f5cd655ca",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/permissions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"permissions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取角色对应的权限数组",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7e0082cc-0477-442a-8c40-1f2f5cd655ca",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/permissions/role/2/array",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"permissions",
+										"role",
+										"2",
+										"array"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "角色权限管理",
+					"item": [
+						{
+							"name": "角色批量添加权限",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "af4305cf-6a49-445c-8995-4418104d64cc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/role/permission/addList",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"role",
+										"permission",
+										"addList"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "用户角色管理",
+					"item": [
+						{
+							"name": "用户添加角色",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "af4305cf-6a49-445c-8995-4418104d64cc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/user/role/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"role",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "角色存在删除, 不存在添加",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/user/role/negate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"user",
+										"role",
+										"negate"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "权限接口管理",
+					"item": [
+						{
+							"name": "获取所有权限接口",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "bc65258e-da61-4894-8f73-5b0a9235d659",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/permission/api",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"permission",
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "添加权限接口",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "14ec9e86-47ac-4f4a-8c44-c0f8a3abe6fc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/permission/api/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"permission",
+										"api",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "更新权限接口",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "14ec9e86-47ac-4f4a-8c44-c0f8a3abe6fc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/permission/api/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"permission",
+										"api",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "删除权限接口",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "14ec9e86-47ac-4f4a-8c44-c0f8a3abe6fc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/admin/permission/api/delete/{id}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"admin",
+										"permission",
+										"api",
+										"delete",
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "消息队列",
+					"item": [],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "本地网关(活动服务)",
+			"item": [
+				{
+					"name": "用户相关",
+					"item": [
+						{
+							"name": "获取详情信息",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/user/detail/info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"user",
+										"detail",
+										"info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取我的活动",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/user/getPractice",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"user",
+										"getPractice"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取活动数量",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/user/getPracticeNum",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"user",
+										"getPracticeNum"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取活动积分",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/user/getPracticeIntegral",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"user",
+										"getPracticeIntegral"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "判断是否报名活动",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/option/judge/1259357918290063360",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"option",
+										"judge",
+										"1259357918290063360"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "报名活动",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/option/apply/1259357918290063360",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"option",
+										"apply",
+										"1259357918290063360"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "取消报名",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/option/notApply/1259357918290063360",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"option",
+										"notApply",
+										"1259357918290063360"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取用户二维码（管理扫）",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/user/qrcode",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"user",
+										"qrcode"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "活动相关",
+					"item": [
+						{
+							"name": "搜索活动",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/search/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"search",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "推荐活动",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/recommend",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"recommend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "全部活动",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取活动分类",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取活动举办组织",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/organization",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"organization"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "活动操作",
+					"item": [
+						{
+							"name": "获取活动签到码（用户扫）",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/option/qrcode/1259357918290063360",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"option",
+										"qrcode",
+										"1259357918290063360"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "活动签到/签退（用户扫码）",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/option/check/checkCode_1260918780964388864",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"option",
+										"check",
+										"checkCode_1260918780964388864"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "活动签到/签退（管理员扫用户码）",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "641a8196-cbea-4d6d-926c-714fcb1c7079",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userId\": 2,\n\t\"practiceId\": \"1259357918290063360\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8888/api/practice/option/check",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8888",
+									"path": [
+										"api",
+										"practice",
+										"option",
+										"check"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "本地网关(账号相关)",
+			"item": [
+				{
+					"name": "账号登陆",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"iscolt\",\n\t\"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "账号基本信息",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "21297743-72b3-4a10-8a4b-c8cc0713762b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/account/info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"account",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改账号信息",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "21297743-72b3-4a10-8a4b-c8cc0713762b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"nickname\": \"柯尔特\",\n    \"username\": \"iscolt\",\n    \"phone\": \"18601549904\",\n    \"email\": \"iscolt@qq.com\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/account/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"account",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改账号密码",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "21297743-72b3-4a10-8a4b-c8cc0713762b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"iscolt\",\n    \"oldPassword\": \"1234567\",\n    \"newPassword\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/account/modify/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"account",
+								"modify",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改账号头像",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "21297743-72b3-4a10-8a4b-c8cc0713762b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"iscolt\",\n    \"path\": \"http://micm.oss-cn-shanghai.aliyuncs.com/51398621-eb96-4254-8b74-9a846c095994.png\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/account/modify/avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"account",
+								"modify",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "账号邮箱验证码（开放）",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"i@iven.cc\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/account/email/code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"account",
+								"email",
+								"code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "忘记账号密码（开放）",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"iscolt@qq.com\",\n\t\"captcha\": \"579532\",\n\t\"newPassword\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/account/forget/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"account",
+								"forget",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改账号邮箱",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "21297743-72b3-4a10-8a4b-c8cc0713762b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"i@iven.cc\",\n\t\"captcha\": \"583632\",\n\t\"username\": \"iscolt\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/user/account/modify/email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"user",
+								"account",
+								"modify",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改账号手机",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "验证账号手机",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "本地网关(消息队列)",
+			"item": [
+				{
+					"name": "账号邮箱验证码",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"iscolt@qq.com\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/cloud/message/email/code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"cloud",
+								"message",
+								"email",
+								"code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "账号手机验证码",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "本地网关(云服务)",
+			"item": [
+				{
+					"name": "上传图片",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "21297743-72b3-4a10-8a4b-c8cc0713762b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "multipartFile",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/cloud/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"cloud",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
