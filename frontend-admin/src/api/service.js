@@ -8,6 +8,21 @@ export function list(page, size) {
   })
 }
 
+export function save(data) {
+  return request({
+    url: '/admin/services/save',
+    method: 'post',
+    data: data,
+  })
+}
+
+export function changeStatus(id) {
+  return request({
+    url: '/admin/services/status/' + id,
+    method: 'get'
+  })
+}
+
 export function deleteById(id) {
   return request({
     url: '/admin/services/delete/' + id,

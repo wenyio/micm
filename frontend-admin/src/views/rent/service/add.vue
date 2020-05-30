@@ -7,6 +7,7 @@
       :model="form"
       label-width="120px"
     >
+      <input type="hidden" v-model="form.id"/>
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="标志">
           <img alt="点击修改标志" @click="iconShow=true" :src="form.icon" width="60" height="60"/>
@@ -57,6 +58,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">保存</el-button>
+          <el-button type="default" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </el-form>
@@ -68,8 +70,7 @@
   import PanThumb from '@/components/PanThumb'
   import ImageCropper from 'vue-image-crop-upload'
   import { getToken } from "@/utils/auth";
-  import {modifyAvatar} from "@/api/profile";
-  // import { add } from "@/api/service";
+  import { save } from "@/api/service";
 
   export default {
     name: "ServiceAdd",
@@ -109,26 +110,34 @@
       }
     },
     created() {
+      // 接收url传来的值
+      this.form = JSON.parse(this.$route.query.form)
     },
     methods: {
       onSubmit() {
         // console.log(this.form)
-        add(this.form).then(response => {
+        save(this.form).then(response => {
           this.formLoading = false
           this.$message({
             message: response.message,
             type: 'success'
           });
-          this.form = {
-            name: '',
-            icon: 'http://micm.oss-cn-shanghai.aliyuncs.com/ca61ede3-a470-4bad-885b-da1f6348bf07.png',
-            cover: 'http://micm.oss-cn-shanghai.aliyuncs.com/65602976-7866-45d2-bf8c-18cf3a0f954a.png',
-            price: '',
-            version: '0.0.1',
-            description: '',
-            status: true,
-          }
+          this.reset(); // 重置表单
         })
+      },
+      /**
+       * 重置表单
+       */
+      reset() {
+        this.form = {
+          name: '',
+          icon: 'http://micm.oss-cn-shanghai.aliyuncs.com/ca61ede3-a470-4bad-885b-da1f6348bf07.png',
+          cover: 'http://micm.oss-cn-shanghai.aliyuncs.com/65602976-7866-45d2-bf8c-18cf3a0f954a.png',
+          price: '',
+          version: '0.0.1',
+          description: '',
+          status: true,
+        }
       },
       /**
        * crop success
