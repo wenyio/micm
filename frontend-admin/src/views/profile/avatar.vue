@@ -55,7 +55,7 @@
        */
       cropSuccess(image, field){
         console.log('-------- crop success --------');
-        this.image = image;
+        this.avatar = image;
       },
       /**
        * upload success

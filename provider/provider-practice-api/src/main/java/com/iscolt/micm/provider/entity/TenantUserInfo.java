@@ -30,6 +30,7 @@ public class TenantUserInfo implements Serializable {
     private static final long serialVersionUID = -7597163662994061489L;
     @Id
     @Column(name = "id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
     @Basic
     @Column(name = "user_id")
@@ -39,6 +40,7 @@ public class TenantUserInfo implements Serializable {
     private int tenantId;
     @Basic
     @Column(name = "organization_id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long organizationId;
     @Basic
     @Column(name = "name")

@@ -26,11 +26,19 @@ import java.util.List;
 @Transactional
 public interface ServiceUserPracticeRepository extends BaseRepository<ServiceUserPractice, Long>, JpaRepository<ServiceUserPractice, Long> {
 
-    @Query(value = "select up.id, up.status, up.created, up.practice_id, p.title, p.icon, p.integral, pc.name as category_name " +
+    /**
+     * 查看用户报名得活动
+     *  TODO 更具时间升序
+     * @param userId
+     * @param tenantId
+     * @return
+     */
+    @Query(value = "select up.id, up.status, up.created, up.practice_id, p.title, p.icon, p.integral, p.begin, pc.name as category_name " +
             "from service_user_practice as up " +
             "left join service_practice as p on up.practice_id = p.id " +
             "left join service_practice_category as pc on p.category_id = pc.id " +
-            "where up.user_id = :uid and up.tenant_id = :tid and p.tenant_id = :tid and pc.tenant_id = :tid"
+            "where up.user_id = :uid and up.tenant_id = :tid and p.tenant_id = :tid and pc.tenant_id = :tid " +
+            "order by p.begin asc "
             , nativeQuery = true)
     List<Object[]> findByUserIdAndTenantId(@Param("uid") int userId, @Param("tid") int tenantId);
 

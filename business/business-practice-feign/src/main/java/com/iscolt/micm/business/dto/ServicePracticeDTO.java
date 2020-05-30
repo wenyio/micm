@@ -1,5 +1,6 @@
 package com.iscolt.micm.business.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.Basic;
@@ -22,11 +23,14 @@ import java.sql.Timestamp;
 @Data
 public class ServicePracticeDTO implements Serializable {
     private static final long serialVersionUID = -6147000929752885571L;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
     private String title;
     private String icon;
     private Integer userId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long organizationId;
     private Timestamp begin;
     private Timestamp end;

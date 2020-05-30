@@ -33,6 +33,7 @@ public class ServicePractice implements Serializable {
     private static final long serialVersionUID = 4595151693933952508L;
     @Id
     @Column(name = "id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
     @Basic
     @Column(name = "title")

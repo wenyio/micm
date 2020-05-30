@@ -1,5 +1,6 @@
 package com.iscolt.micm.business.dto.param;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,5 +21,6 @@ public class PracticeOptionParam implements Serializable {
 
     private static final long serialVersionUID = -3393367297876291965L;
     private Integer userId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long practiceId;
 }

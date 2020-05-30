@@ -191,7 +191,7 @@ public class PracticeOptionController {
         String file = QRCodeUtil.crateQRCode(content);
 
         // 3. 存入活动id，设置过期时间，过期后将无法获得活动id，无法签到
-        redisTemplate.boundValueOps(getCacheKey(code)).set(practiceId, 5, TimeUnit.MINUTES); // 状态对象, 失效时间, 单位
+        redisTemplate.boundValueOps(getCacheKey(code)).set(practiceId, 1, TimeUnit.MINUTES); // 状态对象, 失效时间, 单位
 
         return new QRCode(code, file);
     }

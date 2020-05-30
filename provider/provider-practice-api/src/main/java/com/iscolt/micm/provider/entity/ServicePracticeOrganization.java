@@ -28,7 +28,9 @@ import java.util.Objects;
 @Table(name = "service_practice_organization")
 public class ServicePracticeOrganization implements Serializable {
     private static final long serialVersionUID = -989523436516668987L;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long parentId;
     private Integer tenantId;
     private String name;

@@ -33,6 +33,8 @@ public class UserPracticeView implements Serializable {
     private String title;
     private String icon;
     private Integer integral; // 积分
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Timestamp begin;
 
     // 活动分类信息
     private String category_name;
@@ -40,7 +42,7 @@ public class UserPracticeView implements Serializable {
     public UserPracticeView() {
     }
 
-    public UserPracticeView(BigInteger id, Integer status, Timestamp created, BigInteger practice_id, String title, String icon, Integer integral, String category_name) {
+    public UserPracticeView(BigInteger id, Integer status, Timestamp created, BigInteger practice_id, String title, String icon, Integer integral, Timestamp begin, String category_name) {
         this.id = id;
         this.status = status;
         this.created = created;
@@ -48,6 +50,7 @@ public class UserPracticeView implements Serializable {
         this.title = title;
         this.icon = icon;
         this.integral = integral;
+        this.begin = begin;
         this.category_name = category_name;
     }
 }

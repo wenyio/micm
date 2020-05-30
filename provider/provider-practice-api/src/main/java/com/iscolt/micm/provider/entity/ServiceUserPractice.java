@@ -32,6 +32,7 @@ public class ServiceUserPractice implements Serializable {
     private static final long serialVersionUID = -2480784677058641576L;
     @Id
     @Column(name = "id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
     @Basic
     @Column(name = "user_id")
@@ -41,6 +42,7 @@ public class ServiceUserPractice implements Serializable {
     private int tenantId;
     @Basic
     @Column(name = "practice_id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long practiceId;
     @Basic
     @Column(name = "status")

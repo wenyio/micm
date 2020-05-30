@@ -90,14 +90,14 @@ export const constantRoutes = [
         meta: { title: '服务管理', icon: 'shopping' },
         children: [
           {
-            path: 'api',
-            name: 'PermissionApi',
+            path: 'list',
+            name: 'ServiceList',
             component: () => import('@/views/rent/service/list'),
             meta: { title: '服务列表', icon: '' }
           },
           {
-            path: 'menu',
-            name: 'PermissionMenu',
+            path: 'add',
+            name: 'ServiceAdd',
             component: () => import('@/views/rent/service/add'),
             meta: { title: '服务添加', icon: '' }
           },
