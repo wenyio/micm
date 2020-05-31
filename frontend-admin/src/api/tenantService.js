@@ -1,16 +1,15 @@
 import request from '@/utils/request'
 
-export function list(page, size) {
+export function list() {
   return request({
-    url: '/admin/tenants',
+    url: '/admin/tenant/service',
     method: 'get',
-    params: { page: page, size: size }
   })
 }
 
-export function save(data) {
+export function renewal(data, days) {
   return request({
-    url: '/admin/tenants/save',
+    url: '/admin/tenant/service/renewal/' + days,
     method: 'post',
     data: data,
   })
@@ -18,14 +17,14 @@ export function save(data) {
 
 export function changeStatus(id) {
   return request({
-    url: '/admin/tenants/status/' + id,
+    url: '/admin/tenant/service/status/' + id,
     method: 'get'
   })
 }
 
 export function deleteById(id) {
   return request({
-    url: '/admin/tenants/delete/' + id,
+    url: '/admin/tenant/service/delete/' + id,
     method: 'get',
   })
 }

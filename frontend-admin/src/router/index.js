@@ -75,7 +75,7 @@ export const constantRoutes = [
             meta: { title: '租户列表', icon: '' }
           },
           {
-            path: 'add',
+            path: 'audit',
             name: 'Role',
             component: () => import('@/views/rent/tenant/audit'),
             meta: { title: '租户审核', icon: '' }
@@ -164,34 +164,6 @@ export const constantRoutes = [
   },
 
   {
-    path: '/profile',
-    component: Layout,
-    redirect: '/profile/info',
-    name: 'Profile',
-    meta: { title: '个人管理', icon: 'user' },
-    children: [
-      {
-        path: 'info',
-        name: 'ProfileInfo',
-        component: () => import('@/views/profile/info'),
-        meta: { title: '修改信息', icon: 'user' }
-      },
-      {
-        path: 'password',
-        name: 'ProfilePassword',
-        component: () => import('@/views/profile/password'),
-        meta: { title: '修改密码', icon: 'password' }
-      },
-      {
-        path: 'avatar',
-        name: 'ProfileAvatar',
-        component: () => import('@/views/profile/avatar'),
-        meta: { title: '修改头像', icon: 'people' }
-      }
-    ]
-  },
-
-  {
     path: '/service',
     component: Layout,
     redirect: '/example/table',
@@ -231,6 +203,34 @@ export const constantRoutes = [
         name: 'log',
         component: () => import('@/views/system/log/syslog'),
         meta: { title: '系统日志', icon: '' }
+      }
+    ]
+  },
+
+  {
+    path: '/profile',
+    component: Layout,
+    redirect: '/profile/info',
+    name: 'Profile',
+    meta: { title: '个人管理', icon: 'user' },
+    children: [
+      {
+        path: 'info',
+        name: 'ProfileInfo',
+        component: () => import('@/views/profile/info'),
+        meta: { title: '修改信息', icon: 'user' }
+      },
+      {
+        path: 'password',
+        name: 'ProfilePassword',
+        component: () => import('@/views/profile/password'),
+        meta: { title: '修改密码', icon: 'password' }
+      },
+      {
+        path: 'avatar',
+        name: 'ProfileAvatar',
+        component: () => import('@/views/profile/avatar'),
+        meta: { title: '修改头像', icon: 'people' }
       }
     ]
   },

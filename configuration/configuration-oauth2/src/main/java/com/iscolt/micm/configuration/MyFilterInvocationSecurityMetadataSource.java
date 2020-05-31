@@ -11,10 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * xx
@@ -35,7 +34,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher(); // 模糊匹配 如何 auth/**   auth/auth
 
-    private HashMap<String,String> urlRoleMap = null; // url + 权限
+//    private HashMap<String,String> urlRoleMap = null; // url + 权限
 
     private List<SysRoleApiView> sysRoleApiViews = null; // 所有URL及对应的角色
 
@@ -48,17 +47,26 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      * 加载资源
      */
     public void loadResourceDefine(){
-        urlRoleMap = new HashMap<String,String>(){{
-            try {
-                sysRoleApiViews = sysPermissionApiService.selectAllRoleAndApi();
-                sysRoleApiViews.forEach(sysRoleApiView -> {
-                    put(sysRoleApiView.getUrl(), sysRoleApiView.getEnname());
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("定位:::::::::::::> sysPermissionApiService.selectAllRoleAndApi()");
-            }
-        }};
+        try {
+            sysRoleApiViews = sysPermissionApiService.selectAllRoleAndApi();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("定位:::::::::::::> sysPermissionApiService.selectAllRoleAndApi()");
+        }
+        // TODO 记录一次瞎使用hashmap的后果...
+//        urlRoleMap = new HashMap<String,String>(){{
+//            try {
+//                sysRoleApiViews = sysPermissionApiService.selectAllRoleAndApi();
+//                sysRoleApiViews.forEach(sysRoleApiView -> {
+//                    System.out.println(sysRoleApiView.toString());
+//                    put(sysRoleApiView.getUrl(), sysRoleApiView.getEnname());
+//                });
+//                System.out.println(urlRoleMap);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                System.out.println("定位:::::::::::::> sysPermissionApiService.selectAllRoleAndApi()");
+//            }
+//        }};
     }
 
     @Override
@@ -67,14 +75,20 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         loadResourceDefine();
 
         String requestUrl = ((FilterInvocation) object).getRequest().getMethod() + ((FilterInvocation) object).getRequest().getRequestURI();
-        for (Map.Entry<String, String> entry : urlRoleMap.entrySet()) {
-            if (antPathMatcher.match(entry.getKey(), requestUrl)){ // 如果请求得URL存在, 就添加权限
-                return SecurityConfig.createList(entry.getValue());
+        List<String> roles = new ArrayList<>();
+        sysRoleApiViews.forEach(item -> {
+            if (antPathMatcher.match(item.getUrl(), requestUrl)) {
+                roles.add(item.getEnname());
             }
-        }
-
-        // TODO 没有匹配到, 不存在, 默认需要xx权限, 有需要再改
-        return SecurityConfig.createList("ROLE_LOGIN");
+        });
+//        for (Map.Entry<String, String> entry : urlRoleMap.entrySet()) {
+//            if (antPathMatcher.match(entry.getKey(), requestUrl)){ // 如果请求得URL存在, 就添加权限
+//                roles.add(entry.getValue());
+//            }
+//        }
+        String[] newArr = roles.toArray(new String[roles.size()]);
+        return SecurityConfig.createList(newArr);
+//        return SecurityConfig.createList("ROLE_LOGIN");
     }
 
     @Override

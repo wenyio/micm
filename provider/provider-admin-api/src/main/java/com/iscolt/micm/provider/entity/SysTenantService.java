@@ -1,6 +1,7 @@
 package com.iscolt.micm.provider.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -8,9 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -24,108 +28,53 @@ import java.util.Objects;
  * @see: com.iscolt.micm.provider.entity
  * @version: v1.0.0
  */
+@Data
 @Entity
 @Table(name = "sys_tenant_service", schema = "micm", catalog = "")
 public class SysTenantService implements Serializable {
     private static final long serialVersionUID = -6619570202209526L;
-    private int id;
-    private int tenantId;
-    private int serviceId;
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Timestamp renewalDate;
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Timestamp expirationDate;
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Timestamp freezeDate;
-    private boolean status;
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    private int id;
     @Basic
     @Column(name = "tenant_id")
-    public int getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(int tenantId) {
-        this.tenantId = tenantId;
-    }
-
+    private int tenantId;
     @Basic
     @Column(name = "service_id")
-    public int getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
-    }
-
+    private int serviceId;
+    /**
+     * 续费时间
+     */
     @Basic
     @Column(name = "renewal_date")
-    public Timestamp getRenewalDate() {
-        return renewalDate;
-    }
-
-    public void setRenewalDate(Timestamp renewalDate) {
-        this.renewalDate = renewalDate;
-    }
-
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Timestamp renewalDate;
+    /**
+     * 到期时间
+     */
     @Basic
     @Column(name = "expiration_date")
-    public Timestamp getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Timestamp expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Timestamp expirationDate;
+    /**
+     * 冻结时间
+     */
     @Basic
     @Column(name = "freeze_date")
-    public Timestamp getFreezeDate() {
-        return freezeDate;
-    }
-
-    public void setFreezeDate(Timestamp freezeDate) {
-        this.freezeDate = freezeDate;
-    }
-
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Timestamp freezeDate;
     @Basic
     @Column(name = "status")
-    public boolean isStatus() {
-        return status;
-    }
+    private boolean status;
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SysTenantService that = (SysTenantService) o;
-        return id == that.id &&
-                tenantId == that.tenantId &&
-                serviceId == that.serviceId &&
-                status == that.status &&
-                Objects.equals(renewalDate, that.renewalDate) &&
-                Objects.equals(expirationDate, that.expirationDate) &&
-                Objects.equals(freezeDate, that.freezeDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, tenantId, serviceId, renewalDate, expirationDate, freezeDate, status);
+    /**
+     * 初始化执行
+     */
+    @PrePersist
+    protected void prePersist() {
+        if (renewalDate == null) {
+            renewalDate = new Timestamp(new Date().getTime());
+        }
     }
 }

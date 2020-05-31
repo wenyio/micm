@@ -1,102 +1,107 @@
 <template>
   <div class="app-container">
-    <!-- 表单数据 -->
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
+    <el-form
+      v-loading="formLoading"
+      :data="form"
+      element-loading-text="加载中..."
+      :model="form"
+      label-width="120px"
     >
-      <el-table-column align="center" sortable="custom" label="序号" width="95">
-        <template slot-scope="scope">
-          {{ scope.$index+1 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="租户">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.userId }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="地址" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.tenantAddress }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="规模" width="88">
-        <template slot-scope="scope">
-          <span>{{ scope.row.tenantSize }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="操作">
-        <template slot-scope="scope">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </template>
-      </el-table-column>
-    </el-table>
-    <br>
-    <!-- 分页组件 -->
-    <div class="block">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="1"
-        :page-sizes="[10, 20, 30, 40, 100, 200]"
-        :page-size="10"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="totalElements">
-      </el-pagination>
-    </div>
-    <!-- 修改框 -->
-    <el-dialog title="修改信息" :visible.sync="dialogEdit">
-      <el-form :model="form">
-        <el-input type="hidden" v-model="form.id" />
-        <el-form-item label="昵称">
-          <el-input v-model="form.nickname" />
+      <input type="hidden" v-model="form.id"/>
+      <el-form ref="form" :model="form" label-width="120px">
+        <el-form-item label="标志">
+          <img alt="点击修改标志" @click="iconShow=true" :src="form.icon" width="60" height="60"/>
         </el-form-item>
-        <el-form-item label="用户名">
-          <el-input v-model="form.username" />
+        <image-cropper
+          field="multipartFile"
+          @crop-success="cropIconSuccess"
+          @crop-upload-success="cropIconUploadSuccess"
+          @crop-upload-fail="cropUploadFail"
+          v-model="iconShow"
+          :width="300"
+          :height="300"
+          :url="url"
+          :params="params"
+          :headers="headers"
+          img-format="png"
+        />
+        <image-cropper
+          field="multipartFile"
+          @crop-success="cropCoverSuccess"
+          @crop-upload-success="cropCoverUploadSuccess"
+          @crop-upload-fail="cropUploadFail"
+          v-model="coverShow"
+          :width="300"
+          :height="300"
+          :url="url"
+          :params="params"
+          :headers="headers"
+          img-format="png"
+        />
+        <el-form-item label="租户">
+          <el-input v-model="form.name" />
         </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="form.phone" />
+        <el-form-item label="绑定用户">
+          <el-input type="number" v-model="form.userId"/>
+        </el-form-item>
+        <el-form-item label="地区">
+          <el-input v-model="form.tenantArea"/>
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-input type="text" v-model="form.tenantAddress" />
+        </el-form-item>
+        <el-form-item label="电话">
+          <el-input type="phone" v-model="form.tenantPhone" />
         </el-form-item>
         <el-form-item label="邮箱">
-          <el-input v-model="form.email" />
+          <el-input type="email" v-model="form.mailbox" />
+        </el-form-item>
+        <el-form-item label="规模">
+          <el-input type="text" v-model="form.tenantSize" />
+        </el-form-item>
+        <el-form-item label="营业执照">
+          <img alt="点击修改封面" @click="coverShow=true" :src="form.businessLicenseId" width="60" height="60" style="width: 300px;height: 400px"/>
+        </el-form-item>
+        <el-form-item label="法定代表人">
+          <el-input type="text" v-model="form.legalRepresentative" />
+        </el-form-item>
+        <el-form-item label="审核状态">
+<!--          <el-switch v-model="form.auditState"></el-switch>-->
+          <template slot-scope="scope">
+            <el-select v-model="form.auditState" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-switch v-model="form.status"></el-switch>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">保存</el-button>
+          <el-button type="default" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogEdit = false">取 消</el-button>
-        <el-button type="primary" @click="userEdit">确 定</el-button>
-      </div>
-    </el-dialog>
+    </el-form>
   </div>
 
 </template>
 
 <script>
-  import { list} from "@/api/tenant";
+  import PanThumb from '@/components/PanThumb'
+  import ImageCropper from 'vue-image-crop-upload'
+  import { getToken } from "@/utils/auth";
+  import { save, deleteById, changeStatus } from "@/api/tenant";
 
   export default {
-    name: "Tenant",
+    name: "TenantAdd",
+    components: {
+      ImageCropper, PanThumb
+    },
     filters: {
       statusFilter(status) {
         console.log(status)
@@ -108,74 +113,137 @@
     },
     data() {
       return {
-        list: null,
-        listLoading: true,
-        page: 0,
-        size: 10,
-        totalElements: 0,
-        form: { // 表单数据
-          id: '',
-          nickname: '',
-          account: '',
-          username: '',
-          phone: '',
-          email: '',
-          leven: '',
+        formLoading: false,
+        form: {
+          name: '',
+          userId: null,
+          icon: 'http://micm.oss-cn-shanghai.aliyuncs.com/ca61ede3-a470-4bad-885b-da1f6348bf07.png',
+          tenantArea: '',
+          tenantAddress: '',
+          businessLicenseId: 'http://micm.oss-cn-shanghai.aliyuncs.com/65602976-7866-45d2-bf8c-18cf3a0f954a.png',
+          legalRepresentative: '',
+          tenantPhone: '',
+          mailbox: '',
+          tenantSize: '',
+          auditState: '',
+          status: true,
         },
-        dialogEdit: false,
+        url: process.env.VUE_APP_BASE_API + '/cloud/upload',
+        iconShow: false,
+        coverShow: false,
+        params: {
+          access_token: getToken()
+        },
+        headers: {
+          smail: '*_~'
+        },
         options: [{
-          value: '选项1',
+          value: '0',
           label: '未审核'
         }, {
-          value: '选项2',
+          value: '1',
           label: '已通过'
         }, {
-          value: '选项3',
+          value: '-1',
           label: '未通过'
         }],
         value: ''
       }
     },
     created() {
-      this.fetchData()
+      // 接收url传来的值
+      this.form = JSON.parse(this.$route.query.form)
     },
     methods: {
-      /**
-       * 获取数据
-       */
-      fetchData() {
-        list(this.page, this.size).then(response => {
-          this.list = response.data.content
-          this.totalElements = response.data.totalElements
-          // console.log(this.list)
-          this.listLoading = false
+      onSubmit() {
+        // console.log(this.form)
+        save(this.form).then(response => {
+          this.formLoading = false
+          this.$message({
+            message: response.message,
+            type: 'success'
+          });
+          this.reset(); // 重置表单
         })
       },
       /**
-       * 修改
+       * 重置表单
        */
-      openEdit(row) {
-        this.dialogEdit = true
-        // this.form = row
+      reset() {
+        this.form = {
+          name: '',
+          userId: null,
+          icon: 'http://micm.oss-cn-shanghai.aliyuncs.com/ca61ede3-a470-4bad-885b-da1f6348bf07.png',
+          tenantArea: '',
+          tenantAddress: '',
+          businessLicenseId: 'http://micm.oss-cn-shanghai.aliyuncs.com/65602976-7866-45d2-bf8c-18cf3a0f954a.png',
+          legalRepresentative: '',
+          tenantPhone: '',
+          mailbox: '',
+          tenantSize: '',
+          auditState: '',
+          status: true,
+        }
       },
       /**
-       * 每页x条数据
-       * @param val
+       * crop success
+       *
+       * [param] imgDataUrl
+       * [param] field
        */
-      handleSizeChange(val) {
-        this.size = val
-        this.fetchData()
-        console.log(`每页 ${val} 条`);
+      cropIconSuccess(image, field){
+        console.log('-------- crop success --------');
+        this.form.icon = image;
       },
       /**
-       * 当前x页
-       * @param val
+       * upload success
+       *
+       * [param] jsonData  server api return data, already json encode
+       * [param] field
        */
-      handleCurrentChange(val) {
-        this.page = val - 1
-        this.fetchData()
-        console.log(`当前页: ${val}`);
+      cropIconUploadSuccess(jsonData, field){
+        console.log('-------- upload success --------');
+        console.log(jsonData);
+        console.log('field: ' + field);
+
+        // jsonData.data.path
+        this.form.icon = jsonData.data.path
       },
+      /**
+       * crop success
+       *
+       * [param] imgDataUrl
+       * [param] field
+       */
+      cropCoverSuccess(image, field){
+        console.log('-------- crop success --------');
+        this.form.businessLicenseId = image;
+      },
+      /**
+       * upload success
+       *
+       * [param] jsonData  server api return data, already json encode
+       * [param] field
+       */
+      cropCoverUploadSuccess(jsonData, field){
+        console.log('-------- upload success --------');
+        console.log(jsonData);
+        console.log('field: ' + field);
+
+        // jsonData.data.path
+        this.form.cover = jsonData.data.path
+      },
+      /**
+       * upload fail
+       *
+       * [param] status    server api return error status, like 500
+       * [param] field
+       */
+      cropUploadFail(status, field){
+        console.log('-------- upload fail --------');
+        console.log(status);
+        console.log('field: ' + field);
+      }
     }
   }
 </script>
