@@ -166,20 +166,20 @@ export const constantRoutes = [
   {
     path: '/service',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
+    redirect: '/service/list',
+    name: 'Service',
     meta: { title: '服务管理', icon: 'shopping' },
     children: [
       {
         path: 'list',
-        name: 'PermissionApi',
-        component: () => import('@/views/rent/service/list'),
+        name: 'ServiceList',
+        component: () => import('@/views/service/list'),
         meta: { title: '订阅列表', icon: '' }
       },
       {
         path: 'order',
-        name: 'PermissionMenu',
-        component: () => import('@/views/rent/service/add'),
+        name: 'ServiceOrder',
+        component: () => import('@/views/service/order'),
         meta: { title: '服务大厅', icon: '' }
       },
     ]

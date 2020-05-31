@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function list() {
+export function list(data) {
   return request({
     url: '/admin/tenant/service',
-    method: 'get',
+    method: 'POST',
+    data: data,
   })
 }
 
@@ -22,9 +23,10 @@ export function changeStatus(id) {
   })
 }
 
-export function deleteById(id) {
+export function deleteById(data, id) {
   return request({
     url: '/admin/tenant/service/delete/' + id,
-    method: 'get',
+    method: 'post',
+    data: data
   })
 }

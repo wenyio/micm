@@ -51,6 +51,18 @@ public class ServiceController {
     }
 
     /**
+     * 根据id改变状态
+     *  TODO 现在使用的是更新方法， 需要专门写一个方法来改变状态
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "{id}")
+    public ResponseResult<SysService> getById(@PathVariable(value = "id") Integer id) {
+        SysService service = sysServiceService.getById(id);
+        return new ResponseResult<SysService>(ResponseCode.OK.code(), ResponseCode.OK.message(), service);
+    }
+
+    /**
      * 添加或更新服务
      * @param serviceParam
      * @return

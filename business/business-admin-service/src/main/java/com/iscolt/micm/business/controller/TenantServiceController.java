@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * xx
+ * 租户订阅的服务
+ *  TODO 需要添加金额的流水或日志
  * <p>
  * Description:
  * </p>
@@ -94,11 +95,21 @@ public class TenantServiceController {
      * @param id
      * @return
      */
-    @GetMapping(value = "delete/{id}")
-    public ResponseResult<Void> delete(@PathVariable(value = "id") Integer id) {
-        SysTenantService sysTenantService = sysTenantServiceService.removeById(id);
+    @PostMapping(value = "delete/{id}")
+    public ResponseResult<Void> delete(@RequestBody TenantServiceParam tenantServiceParam, @PathVariable(value = "id") Integer id) {
+        SysTenant sysTenant = tenantService.getById(tenantServiceParam.getTenantId());
+        SysService sysService = sysServiceService.getById(tenantServiceParam.getServiceId());
+        // （到期时间 - 当前时间）* 价格
+        SysTenantService sysTenantService = sysTenantServiceService.getById(id);
+        long times = sysTenantService.getExpirationDate().getTime() - new Timestamp(new Date().getTime()).getTime();
+        int days = (int) (times / 24 / 3600 / 1000); // 转换为天数
+        // 已有金额 + 退还金额
+        sysTenant.setBalance(sysTenant.getBalance().add(sysService.getPrice().multiply(BigDecimal.valueOf(days))));
+        tenantService.update(sysTenant);
+        // 取消订阅
+        SysTenantService result = sysTenantServiceService.removeById(id);
 
-        if (sysTenantService != null) {
+        if (result != null) {
             return new ResponseResult<Void>(ResponseCode.OK.code(), ResponseCode.OK.message());
         }
 
@@ -112,29 +123,52 @@ public class TenantServiceController {
      * @return
      */
     @PostMapping(value = "renewal/{days}")
-    public ResponseResult<Void> delete(@RequestBody TenantServiceParam tenantServiceParam,
+    public ResponseResult<Void> renewal(@RequestBody TenantServiceParam tenantServiceParam,
                                        @PathVariable(value = "days") Integer days) {
         SysTenantService sysTenantService = sysTenantServiceService.selectByServiceIdAndTenantId(tenantServiceParam.getServiceId(), tenantServiceParam.getTenantId());
+        SysTenant sysTenant = tenantService.getById(tenantServiceParam.getTenantId());
+        SysService sysService = sysServiceService.getById(tenantServiceParam.getServiceId());
+        String result = "";
+        // 已经订阅
         if (sysTenantService != null) {
-            SysTenant sysTenant = tenantService.getById(tenantServiceParam.getTenantId());
-            SysService sysService = sysServiceService.getById(tenantServiceParam.getServiceId());
-
-            // price1 大于price2返回1，price1 等于price2返回0，price1 小于price2返回-1
-            // int a = price1.compareTo(price2);
-            int result = sysTenant.getBalance().compareTo(sysService.getPrice().multiply(BigDecimal.valueOf(days)));
-            // 余额大于消费金额
-            if (result >= 0) {
-                // 续费：扣除余额， 更新续费时间及到期时间
-                // 1. 扣费
-                sysTenant.setBalance(sysTenant.getBalance().subtract(sysService.getPrice().multiply(BigDecimal.valueOf(days))));
-                tenantService.update(sysTenant);
-                // 2. 续费操作
-                sysTenantService.setRenewalDate(new Timestamp(new Date().getTime()));
-                sysTenantService.setExpirationDate(new Timestamp(sysTenantService.getExpirationDate().getTime() + (long)1000*3600*24*days));
-                sysTenantServiceService.update(sysTenantService);
-            }
-            return new ResponseResult<Void>(ResponseCode.FAIL.code(), "操作失败！余额不足！");
+            result = renewal(sysTenant, sysService, sysTenantService, days);
+            sysTenantServiceService.update(sysTenantService);
+            return new ResponseResult<Void>(ResponseCode.OK.code(), result);
         }
-        return new ResponseResult<Void>(ResponseCode.FAIL.code(), ResponseCode.FAIL.message());
+        // 未订阅
+        else {
+            sysTenantService = new SysTenantService();
+            sysTenantService.setServiceId(tenantServiceParam.getServiceId());
+            sysTenantService.setTenantId(tenantServiceParam.getTenantId());
+            sysTenantService.setExpirationDate(new Timestamp(new Date().getTime())); // 设置到期时间为今天
+            sysTenantService.setFreezeDate(new Timestamp(0)); // 初始化冻结时间
+            result = renewal(sysTenant, sysService, sysTenantService, days);
+            sysTenantServiceService.create(sysTenantService);
+            return new ResponseResult<Void>(ResponseCode.OK.code(), result);
+        }
+    }
+
+    /**
+     * 订阅操作
+     * @return
+     */
+    public String renewal(SysTenant sysTenant, SysService sysService, SysTenantService sysTenantService, Integer days) {
+
+        // price1 大于price2返回1，price1 等于price2返回0，price1 小于price2返回-1
+        // int a = price1.compareTo(price2);
+        int result = sysTenant.getBalance().compareTo(sysService.getPrice().multiply(BigDecimal.valueOf(days)));
+        // 余额大于消费金额
+        if (result >= 0) {
+            // 续费：扣除余额， 更新续费时间及到期时间
+            // 1. 扣费
+            sysTenant.setBalance(sysTenant.getBalance().subtract(sysService.getPrice().multiply(BigDecimal.valueOf(days))));
+            tenantService.update(sysTenant);
+            // 2. 续费操作
+            sysTenantService.setRenewalDate(new Timestamp(new Date().getTime()));
+            sysTenantService.setExpirationDate(new Timestamp(sysTenantService.getExpirationDate().getTime() + (long)1000*3600*24*days));
+//            sysTenantServiceService.update(sysTenantService);
+            return ResponseCode.OK.message();
+        }
+        return "操作失败！余额不足！";
     }
 }

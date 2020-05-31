@@ -76,5 +76,6 @@ public class SysTenantService implements Serializable {
         if (renewalDate == null) {
             renewalDate = new Timestamp(new Date().getTime());
         }
+        status = true;
     }
 }

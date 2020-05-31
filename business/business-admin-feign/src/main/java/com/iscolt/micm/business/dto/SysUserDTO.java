@@ -24,6 +24,7 @@ import java.util.Date;
 public class SysUserDTO implements Serializable {
 
     private int id;
+    private int tenantId;
     private String avatar;
     private String account;
     private String nickname;
@@ -37,5 +38,4 @@ public class SysUserDTO implements Serializable {
     private Timestamp loginTime;
     private Timestamp created;
     private Timestamp updated;
-
 }

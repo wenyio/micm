@@ -29,3 +29,11 @@ export function deleteById(id) {
     method: 'get',
   })
 }
+
+export function getById(id) {
+  return request({
+    url: '/admin/services/' + id,
+    method: 'get',
+  })
+}
+

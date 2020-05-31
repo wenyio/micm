@@ -99,25 +99,25 @@
       >
         <el-table-column label="服务" width="110" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.userId }}</span>
+            <span>{{ scope.row.serviceId }}</span>
           </template>
         </el-table-column>
         <el-table-column label="到期时间" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.tenantAddress }}</span>
+            <span>{{ scope.row.expirationDate }}</span>
           </template>
         </el-table-column>
         <el-table-column class-name="status-col" label="状态" width="110" align="center">
           <template slot-scope="scope">
             <!--          <el-tag :type="scope.row.status | statusFilter">-->
-            <el-button type="warning" plain size="mini" @click="changeStatus(scope.row.id)" v-if="!scope.row.status">冻结</el-button>
-            <el-button type="success" plain size="mini" @click="changeStatus(scope.row.id)" v-if="scope.row.status">正常</el-button>
+            <el-button type="warning" plain size="mini" @click="changeServiceStatus(scope.row.id)" v-if="!scope.row.status">冻结</el-button>
+            <el-button type="success" plain size="mini" @click="changeServiceStatus(scope.row.id)" v-if="scope.row.status">正常</el-button>
             <!--          </el-tag>-->
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <el-button type="danger" size="mini" @click="deleteTenantService(scope.row.id)" >删除</el-button>
+            <el-button type="danger" size="mini" @click="deleteService(scope.row.id, scope.row.serviceId)" >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -132,6 +132,8 @@
 
 <script>
   import { list, changeStatus, deleteById} from "@/api/tenant";
+  import { list as listService, deleteById as deleteService, changeStatus as changeServiceStatus} from "@/api/tenantService";
+  import {info} from "@/api/profile";
 
   export default {
     name: "Tenant",
@@ -152,11 +154,16 @@
         size: 10,
         totalElements: 0,
         dialogService: false,
-        services: []
+        services: [],
+        data: {
+          serviceId: null,
+          tenantId: null,
+        },
       }
     },
     created() {
       this.fetchData()
+      this.getUserTenantId()
     },
     methods: {
       /**
@@ -210,9 +217,55 @@
        */
       openService(id) {
         this.dialogService = true
+        this.formLoading = true
+        this.data.tenantId = id
+        this.listService();
       },
-      deleteTenantService() {
-
+      listService(){
+        listService(this.data).then(response => {
+          this.formLoading = false
+          this.services = response.data
+          console.log(response.data)
+        }).catch(() => {
+          this.formLoading = false
+        })
+      },
+      deleteService(id, serviceId) {
+        this.data.serviceId = serviceId;
+        this.formLoading = true
+        deleteService(this.data, id).then(response => {
+          this.formLoading = false
+          this.listService()
+          this.fetchData()
+          this.$message({
+            message: response.message,
+            type: 'success'
+          })
+        }).catch(() => {
+          this.formLoading = false
+        })
+      },
+      getUserTenantId() {
+        this.formLoading = true
+        info(this.$store.getters.name).then(response => {
+          this.data.tenantId  = response.data.tenantId
+          this.formLoading = false
+        }).catch(() => {
+          this.formLoading = false
+        })
+      },
+      changeServiceStatus(id) {
+        this.formLoading = true
+        changeServiceStatus(id).then(response => {
+          this.formLoading = false
+          this.listService()
+          this.$message({
+            message: response.message,
+            type: 'success'
+          });
+        }).catch(() => {
+          this.formLoading = false
+        })
       },
       /**
        * 每页x条数据
