@@ -10,7 +10,7 @@
             <!--用户已登录-->
             <div class="user" v-if="true">
                 <!--头像列表-->
-                <router-link target="_blank" to="/space" ><li class="user-item account-item">
+                <router-link target="_blank" to="/user/account" ><li class="user-item account-item">
                     <el-popover
                             placement="bottom"
                             height="500"
@@ -27,7 +27,6 @@
                             <ul class="account-ul">
                                 <router-link target="_blank" to="/service"><li>服务中心</li></router-link>
                                 <router-link to="/user/account"><li>账号设置</li></router-link>
-                                <!--                  <router-link target="_blank" to="/account"><li>个人中心</li></router-link>-->
                                 <li @click="accOut()">退出</li>
                             </ul>
                         </div>
@@ -57,6 +56,9 @@
         },
         methods: {
             handleSelect(key, keyPath) {
+                if (key == 0) {
+                    this.activeIndex = 1;
+                }
                 console.log(key, keyPath);
                 if (key ==  null) {
                     return

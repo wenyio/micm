@@ -39,6 +39,11 @@ Vue.use(VueRouter)
       component: () => import(/* webpackChunkName: "about" */ '../views/service/Index')
     },
     {
+      path: '/service/feedback',
+      name: 'ServiceFeedback',
+      component: () => import(/* webpackChunkName: "about" */ '../views/service/FeedBack')
+    },
+    {
       path: '/tenant',
       name: 'Tenant',
       component: () => import(/* webpackChunkName: "about" */ '../views/tenant/Index')
@@ -67,6 +72,11 @@ Vue.use(VueRouter)
       path: '/user/account',
       name: 'UserAccount',
       component: () => import(/* webpackChunkName: "about" */ '../views/user/account/Index')
+    },
+    {
+      path: '/user/account/set',
+      name: 'AccountSet',
+      component: () => import(/* webpackChunkName: "about" */ '../views/user/account/Set')
     },
 ]
 

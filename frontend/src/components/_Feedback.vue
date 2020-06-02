@@ -2,7 +2,7 @@
     <div id="floatPanel">
         <div class="ctrolPanel" style="right:66px;border-radius: 5px;">
             <a class="arrow" href="#"><span>顶部</span></a>
-            <a class="contact" href="/" target="_blank"><span>反馈</span></a>
+            <router-link target="_blank" to="/service/feedback"><a class="contact" ><span>反馈</span></a></router-link>
             <a class="qrcode" href="#"><span>微信二维码</span></a>
             <a class="arrow" href="#"><span>底部</span></a>
         </div>
