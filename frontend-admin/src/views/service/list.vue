@@ -7,7 +7,7 @@
       element-loading-text="Loading"
       border
       fit
-      highlight-current-’row
+      highlight-current-row
     >
       <el-table-column label="服务" width="110" align="center">
 <!--          <span>{{ scope.row.serviceId }}</span>-->
