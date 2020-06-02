@@ -3,8 +3,9 @@
 	<div class="Schedule">
 		<br />
 		<el-row :gutter="20">
-			<el-col :span="8"><el-calendar v-model="date"></el-calendar></el-col>
-			<el-col :span="14">
+			<el-col :span="1">.</el-col>
+			<el-col :span="14"><el-calendar v-model="date"></el-calendar></el-col>
+			<el-col :span="8">
 				<el-timeline>
 					<el-timeline-item timestamp="2018/4/12" placement="top">
 						<el-card>
@@ -26,7 +27,7 @@
 					</el-timeline-item>
 				</el-timeline>
 			</el-col>
-			<el-col :span="2">&nbsp;</el-col>
+			<el-col :span="1">&nbsp;</el-col>
 		</el-row>
 	</div>
 </template>

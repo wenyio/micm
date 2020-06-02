@@ -49,9 +49,24 @@ Vue.use(VueRouter)
       component: () => import(/* webpackChunkName: "about" */ '../views/tenant/Index')
     },
     {
-      path: '/user',
-      name: 'User',
-      component: () => import(/* webpackChunkName: "about" */ '../views/user/Index')
+      path: '/tenant/practice',
+      name: 'TenantPractice',
+      component: () => import(/* webpackChunkName: "about" */ '../views/tenant/practice/Index')
+    },
+    {
+      path: '/tenant/practice/detail',
+      name: 'TenantPractice',
+      component: () => import(/* webpackChunkName: "about" */ '../views/tenant/practice/Detail')
+    },
+    {
+      path: '/tenant/practice/create',
+      name: 'TenantPracticeCreate',
+      component: () => import(/* webpackChunkName: "about" */ '../views/tenant/practice/Create')
+    },
+    {
+      path: '/tenant/practice/myCreate',
+      name: 'TenantPracticeMyCreate',
+      component: () => import(/* webpackChunkName: "about" */ '../views/tenant/practice/MyCreate')
     },
     {
       path: '/user/schedule',
