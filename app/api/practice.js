@@ -53,6 +53,14 @@ export function list() {
 	})
 }
 
+export function add(data) {
+	return http.request({
+		url: url + '/practice/add' ,
+		method: 'POST',
+		data:data
+	})
+}
+
 export function organization() {
 	return http.request({
 		url: url + '/practice/organization/' ,

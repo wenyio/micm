@@ -25,7 +25,7 @@
 			<view class="uni-input1">
 				<view class="value">
 					<BiaofunDatetimePicker placeholder="请选择日期时间" 
-					defaultValue="2020-05-08 18:18" 
+					defaultValue="2020-06-03 9:52" 
 					start="2000-01-01" 
 					end="2100-01-01" 
 					fields="minute" 
@@ -39,7 +39,7 @@
 			<view class="uni-input1">
 				<view class="value">
 					<BiaofunDatetimePicker placeholder="请选择日期时间" 
-					defaultValue="2020-05-08 18:18" 
+					defaultValue="2020-06-03 10:05" 
 					start="2000-01-01" 
 					end="2100-01-01" 
 					fields="minute" 
@@ -70,13 +70,13 @@
 		</view>
 		<view style="margin-top: 100rpx;display: flex;justify-content: center;">
 			<button class="save_info_f" type="default" @click="updateform">提交</button>
-			<button class="save_info_f1" type="default" >重置</button>
+			<button class="save_info_f1" type="default" @click="reset" >重置</button>
 		</view>
 	</view>
 </template>
 
 <script>
-	import { category, organization } from '@/api/practice.js'
+	import { category, organization, add } from '@/api/practice.js'
 	import { uploadFile } from "@/api/sys.js"
 	import BiaofunDatetimePicker from '@/components/biaofun-datetime-picker/biaofun-datetime-picker.vue';
 
@@ -116,8 +116,8 @@
 					begin:null,
 					end:null,
 					organization:'',
-					organization_id: null,
-					category_id: null,
+					organizationId: null,
+					categoryId: null,
 					integral:'5',
 				},
 				newIcon:'',
@@ -193,13 +193,13 @@
 			chooseCategory: function(e) {
 				console.log('选择分类' + e.target.value)
 				// console.log(this.category[e.target.value])
-				this.form.category_id = this.category[e.target.value].id
+				this.form.categoryId = this.category[e.target.value].id
 				this.category_index = e.target.value
 			},
 			chooseOrigin: function(e) {
 				console.log('选择组织：' + e.target.value)
 				// console.log(this.origination[e.target.value])
-				this.form.organization_id = this.origination[e.target.value].id
+				this.form.organizationId = this.origination[e.target.value].id
 				this.form.organization = this.origination[e.target.value].name
 				this.organization_index = e.target.value
 			},
@@ -209,11 +209,11 @@
 			 */ 
 			changeBeginDatetimePicker(date) {
 				// console.log('选择日期：', date.fmt3);
-				this.form.begin = date.fmt3
+				this.form.begin = date.fmt3 + ':00'
 			},
 			changeEndDatetimePicker(date) {
 				// console.log('选择日期：', date.fmt3);
-				this.form.end = date.fmt3
+				this.form.end = date.fmt3 + ':00'
 			},
 			getCategory(){
 				let that = this
@@ -236,7 +236,7 @@
 				})
 			},
 			updateform(){
-				if (this.form.category_id == null || this.form.organization_id == null) {
+				if (this.form.categoryId == null || this.form.organizationId == null) {
 					uni.showToast({
 					    icon: 'none',
 						position: 'bottom',
@@ -257,7 +257,32 @@
 				console.log(this.form)
 				// 数据没问题，调用接口
 				// TODO 调用接口
+				add(this.form).then(res =>{
+					let result = res [res.length-1].data
+					if(result.code === 20000){
+						uni.showToast({
+						    icon: 'none',
+							position: 'bottom',
+						    title: result.message
+						});
+						this.reset() // 重置表单
+					}
+				})
 			},
+			reset() {
+				this.form = {
+					title: '默认活动名',
+					icon: 'http://micm.oss-cn-shanghai.aliyuncs.com/068446f8-cd2c-43c5-a414-391ceda16639.jpg',
+					address: '默认线上活动',
+					description:'默认描述',
+					begin:null,
+					end:null,
+					organization:'',
+					organizationId: null,
+					categoryId: null,
+					integral:'5',
+				}
+			}
 		}
 	}
 </script>
