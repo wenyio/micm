@@ -11,13 +11,16 @@
 				:note="item.organization + '\n举办时间: ' + item.begin +'\n举办地点: ' + item.address"/>
 			</uni-list>
 		</view>
-        
+        <view class="uni-fab-box">
+        	<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" />
+        </view>
 	</view>
 </template>
 
 <script>
 	import {search} from '@/api/practice.js'
 	import {list} from '@/api/practice.js'
+	import uniFab from '@/components/uni-fab/uni-fab.vue'
 	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
 	import uniSection from '@/components/uni-section/uni-section.vue'
 	import uniList from '@/components/uni-list/uni-list.vue'
@@ -30,13 +33,29 @@
 			uniSection,
 			uniList,
 			uniListItem,
-			
+			uniFab
 		},
 		data() {
 			return {
 				listData: [],
-			}
-		},
+				pattern: {
+						color: '#7A7E83',
+						backgroundColor: '#fff',
+						selectedColor: '#007AFF',
+						buttonColor: '#007AFF'
+					},
+					content: [{
+							iconPath: '/static/image/l1.png',
+							text: '发布',
+							active: false
+						},
+						{
+							iconPath: '/static/image/l2.png',
+							text: '签到',
+							active: false
+						},]
+				}
+			},
 		onLoad() {
 			this.practice()
 		},
@@ -55,6 +74,34 @@
 				uni.navigateTo({
 					url:"/pages/index/list/list?id=" + id
 				});
+			},
+			trigger(e) {
+				console.log(e.index)
+				if(e.index == 1){
+					uni.navigateTo({
+						url:"/pages/index/activity/activity"
+					});
+				}else if(e.index == 0){
+					uni.navigateTo({
+						url:"/pages/index/new/new"
+					});
+				}
+				this.content[e.index].active = !e.item.active
+				uni.showModal({
+					title: '提示',
+					content: `您选择${this.content[e.index].active ? '发布' : '签到'}`,
+					// success: function(res) {
+					// 	if (res.confirm) {
+					// 		console.log('用户点击确定')
+					// 		uni.navigateTo({
+					// 			url:"/pages/index/new/new"
+					// 		});
+					// 	} else if (res.cancel) {
+					// 		console.log('用户点击取消')
+							
+					// 	}
+					// }
+				})
 			},
 			search(res) {
 				search(res.value).then(res => {

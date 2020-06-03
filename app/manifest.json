@@ -1,6 +1,6 @@
 {
     "name" : "校织网",
-    "appid" : "__UNI__EFFD347",
+    "appid" : "__UNI__B03100A",
     "description" : "校织网APP",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -85,7 +85,7 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "C:/Users/DaiZhouzhou/Desktop/welcome.png"
+                    "hdpi" : ""
                 }
             }
         }

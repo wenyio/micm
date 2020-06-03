@@ -36,16 +36,12 @@
 				</view>
 			</view>
 		</uni-popup>
-		<view class="uni-fab-box">
-			<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" />
-		</view>
 	</view>
 </template>
 
 <script>
 	import { getPractice, } from "@/api/practice.js"
 	import { getUserQrCode } from "@/api/user.js"
-	import uniFab from '@/components/uni-fab/uni-fab.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue'
 	import uniSection from '@/components/uni-section/uni-section.vue'
@@ -58,7 +54,6 @@
 			uniCard,
 			uniPopup,
 			uniIcons,
-			uniFab
 		},
 		data() {
 			return {
@@ -79,16 +74,6 @@
 					selectedColor: '#007AFF',
 					buttonColor: '#007AFF'
 				},
-				content: [{
-						iconPath: '/static/image/l1.png',
-						text: '发布',
-						active: false
-					},
-					{
-						iconPath: '/static/image/l2.png',
-						text: '签到',
-						active: false
-					},]
 			}
 		},
 		onBackPress() {
@@ -139,24 +124,7 @@
 					});
 				});
 			},
-			trigger(e) {
-				console.log(e)
-				this.content[e.index].active = !e.item.active
-				uni.showModal({
-					title: '提示',
-					content: `您${this.content[e.index].active ? '选中了' : '取消了'}${e.item.text}`,
-					success: function(res) {
-						if (res.confirm) {
-							console.log('用户点击确定')
-							uni.navigateTo({
-								url:"/pages/index/new/new"
-							});
-						} else if (res.cancel) {
-							console.log('用户点击取消')
-						}
-					}
-				})
-			},
+			
 			switchBtn(hor, ver) {
 				if (hor === 0) {
 					this.direction = this.direction === 'horizontal' ? 'vertical' : 'horizontal'

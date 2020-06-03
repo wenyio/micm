@@ -144,12 +144,14 @@ export default {
 			}
 		};
 	},
+	// 下拉刷新
 	onPullDownRefresh() {
 		this.reload = true;
 		this.last_id = '';
 		this.getBanner();
 		// this.getList();
 	},
+	//上拉
 	onReachBottom() {
 		this.status = 'more';
 		// this.getList();

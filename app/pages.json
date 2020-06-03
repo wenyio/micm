@@ -90,12 +90,6 @@
 			}
         }
         ,{
-            "path" : "pages/index/apply/apply",
-            "style" : {
-				"navigationBarTitleText": "学分申请"
-			}
-        }
-        ,{
             "path" : "pages/index/collect/collect",
             "style" : {
 				"navigationBarTitleText": "职位收藏记录"

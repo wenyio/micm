@@ -143,7 +143,8 @@
 </template>
 
 <script>
-	
+	import '@/components/main.css';
+	import "@/components/icon.css";
 	export default {
 		data() {
 			return {
@@ -155,11 +156,11 @@
 				swiperHeight: '800px',//
 			
 				subjectList:[
-					{"title":"水是液体？","type":1,"optionList":[{"id":"A","content":"对"},{"id":"B","content":"错"}],"answer":"A","userAnswer":"","userFavor":false,"explain":"难到是固体不成？"},
-					{"title":"电流分有？","type":2,"optionList":[{"id":"A","content":"直流"},{"id":"B","content":"交流"},{"id":"C","content":"直流和交流"}],"answer":"C","userAnswer":"","userFavor":false,"explain":"科技学依据"},
-					{"title":"酸菜鱼的味道？","type":3,"optionList":[{"id":"A","content":"咸味"},{"id":"B","content":"辣味"},{"id":"C","content":"甜味"},{"id":"D","content":"酸味"}],"answer":"A,B,D","userAnswer":"","userFavor":false,"explain":"你怎么想都行，要的就是这个味，答案只能选A,B,D"},
-					{"title":"床前（____）光，疑是地上霜。","type":4,"optionList":[{"id":"","content":""}],"answer":"明月","userAnswer":"","userFavor":false,"explain":"问答题没有选项，无法做答，且不参与计分"},
-					{"title":"什么美国要限制华为？","type":5,"optionList":[{"id":"","content":""}],"answer":"","userAnswer":"","userFavor":false,"explain":"问答题没有选项，无法做答，且不参与计分"},
+					{"title":"校织网app只有手机端吗？","type":1,"optionList":[{"id":"A","content":"对"},{"id":"B","content":"错"}],"answer":"B","userAnswer":"","userFavor":false,"explain":"还要电脑端？"},
+					{"title":"你喜欢用手机端还是电脑端？","type":2,"optionList":[{"id":"A","content":"手机端"},{"id":"B","content":"电脑端"},{"id":"C","content":"都可以"}],"answer":"C","userAnswer":"","userFavor":false,"explain":"科技学依据"},
+					{"title":"校织网app主要有哪些模块？","type":3,"optionList":[{"id":"A","content":"首页"},{"id":"B","content":"日程安排"},{"id":"C","content":"我的"},],"answer":"A,B,C","userAnswer":"","userFavor":false,"explain":"主要大模块由这三个组成"},
+					{"title":"（____)掌上平台的设计与实现","type":4,"optionList":[{"id":"","content":""}],"answer":"校织网","userAnswer":"","userFavor":false,"explain":"问答题没有选项，无法做答，且不参与计分"},
+					{"title":"校织网app的意义有哪些？","type":5,"optionList":[{"id":"","content":""}],"answer":"","userAnswer":"","userFavor":false,"explain":"问答题没有选项，无法做答，且不参与计分"},
 										
 				   ],
 				modalCard: null ,//显示答题卡
@@ -285,10 +286,8 @@
 	}
 </script>
 
-<style>
-	@import "components/colorui/main.css";
-	@import "components/colorui/icon.css";
-		@import "../../../components/colorui/animation.css";
+<style >
+
 	page {
 		background-color: #FFFFFF;
 	}
