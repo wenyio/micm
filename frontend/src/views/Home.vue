@@ -27,7 +27,7 @@
     </el-drawer>
     <!-- 搜索框 -->
     <div class="cricle">
-      <form class="search-box" action="https://www.baidu.com/s">
+      <form class="search-box" @click="goToPractice" action="https://www.baidu.com/s">
         <div class="search" >Search/</div>
         <input type="text"/>
         <i class="el-icon-thumb search-i" onsubmit="this"></i>
@@ -58,6 +58,13 @@
 export default {
   name: 'Home',
   components: {
+  },
+  created() {
+    this.$notify({
+      title: '通知',
+      message: '【一页通】服务暂未开放，敬请期待~',
+      position: 'bottom-right'
+    });
   },
   data() {
     return {
@@ -94,6 +101,21 @@ export default {
       } else {
         that.showAdd = true
       }
+    },
+    // 去活动页
+    goToPractice() {
+      // 判断用户是否绑定了租户
+      let isTenant = true
+      // 如果绑定， 放行
+      if (isTenant) {
+        this.$router.push('/tenant/practice')
+        return
+      }
+      // 否则
+      this.$message({
+        message: '一页通服务暂未开通',
+        type: 'warning'
+      });
     }
   }
 }

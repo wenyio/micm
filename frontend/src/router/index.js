@@ -39,6 +39,11 @@ Vue.use(VueRouter)
       component: () => import(/* webpackChunkName: "about" */ '../views/service/Index')
     },
     {
+      path: '/service/apply',
+      name: 'ServiceApply',
+      component: () => import(/* webpackChunkName: "about" */ '../views/service/Apply')
+    },
+    {
       path: '/service/feedback',
       name: 'ServiceFeedback',
       component: () => import(/* webpackChunkName: "about" */ '../views/service/FeedBack')

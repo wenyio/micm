@@ -49,17 +49,18 @@
                             <!-- 快捷入口 -->
                             <div class="cricle">
                                 <div class="container">
-                                    <div class="box" v-for="i in 5" :key="i">
+                                    <div class="box" v-for="(menu, index) in sets.hallMenu" :key="index">
                                         <div class="img">
-                                            <img src="@/assets/icos/录制.png"/>
+<!--                                            <img src="@/assets/icos/录制.png"/>-->
+                                            <i :class="menu.icon" style="font-size: 50px;"></i>
                                         </div>
-                                        <p>常用网站</p>
+                                        <p>{{menu.name}}</p>
                                     </div>
-                                    <div class="box" v-if="showAdd" @click="drawer = true">
+                                    <div class="box" @click="activeName2 = 'fourth'" v-if="sets.showAdd">
                                         <div class="img">
                                             <i class="el-icon-circle-plus-outline" style="font-size: 50px;"></i>
                                         </div>
-                                        <p v-if="sets.showTitle">添加</p>
+                                        <p>添加</p>
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +69,7 @@
                             <!-- 快捷入口 -->
                             <div class="cricle">
                                 <div class="container">
-                                    <div class="box" v-for="(menu, index) in practiceMenus" :key="index" @click="goPage(menu.route)">
+                                    <div class="box" v-for="(menu, index) in sets.practiceMenus" :key="index" @click="goPage(menu.route)">
                                         <div class="img">
                                             <i :class="menu.icon" style="font-size: 50px;"></i>
                                         </div>
@@ -81,15 +82,28 @@
                             <el-row :gutter="12">
                                 <el-col :span="8" v-for="o in 4" :key="o" style="margin-bottom: 12px;">
                                     <el-card class="box-card" shadow="hover">
-                                        <div v-for="o in 4" :key="o" class="text item">
-                                            {{'列表内容 ' + o }}
+                                        <div style="display: flex;justify-content: space-around;align-items: center">
+                                            <div style="width: 90px">
+                                                <img src="@/assets/logo.png" width="88px" alt="">
+                                            </div>
+                                            <div style="width: 60%;">
+                                                <h4>标题</h4>
+                                                <el-tag size="mini">超小标签</el-tag>
+                                                <p><el-link :underline="false">2020-20-20 25.20</el-link></p>
+                                            </div>
                                         </div>
                                     </el-card>
                                 </el-col>
                             </el-row>
                         </el-tab-pane>
                         <el-tab-pane label="设置" name="fourth">
-                            设置
+                            <el-form ref="form" :model="sets" label-width="80px">
+                                <el-form-item label="办事大厅:">
+                                    <el-checkbox-group v-model="sets.hallType">
+                                        <el-checkbox :label="menu.name" name="type" v-for="(menu, index) in sets.hallMenus" :key="index"  @change="addOpp(menu)"></el-checkbox>
+                                    </el-checkbox-group>
+                                </el-form-item>
+                            </el-form>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -105,14 +119,61 @@
         data() {
             return {
                 activeName2: 'first',
-                practiceMenus: [
-                    {route: '/tenant/practice/myCreate', name: '我的创建', icon: 'el-icon-guide'},
-                    {route: '/tenant/practice', name: '活动大厅', icon: 'el-icon-coin'},
-                    {route: '/tenant/practice/create', name: '新建活动', icon: 'el-icon-circle-plus-outline'},
-                ]
+                sets: {
+                    showAdd: true,
+                    hallType: ['日程', '我的创建', '活动大厅', '账号中心'],
+                    hallMenu: [
+                        {id: '1',route: '', name: '日程', icon: 'el-icon-s-order'},
+                        {id: '2',route: '', name: '我的创建', icon: 'el-icon-guide'},
+                        {id: '3',route: '', name: '活动大厅', icon: 'el-icon-coin'},
+                        {id: '4',route: '', name: '账号中心', icon: 'el-icon-user'},
+                    ],
+                    hallMenus: [
+                        {id: '1',route: '', name: '首页', icon: 'el-icon-s-home'},
+                        {id: '2',route: '', name: '服务大厅', icon: 'el-icon-s-goods'},
+                        {id: '3',route: '', name: '日程', icon: 'el-icon-s-order'},
+                        {id: '4',route: '', name: '我的创建', icon: 'el-icon-guide'},
+                        {id: '5',route: '', name: '新建活动', icon: 'el-icon-circle-plus-outline'},
+                        {id: '6',route: '', name: '活动大厅', icon: 'el-icon-coin'},
+                        {id: '7',route: '', name: '账号中心', icon: 'el-icon-user'},
+                    ],
+                    practiceMenus: [
+                        {route: '/tenant/practice/myCreate', name: '我的创建', icon: 'el-icon-guide'},
+                        {route: '/tenant/practice', name: '活动大厅', icon: 'el-icon-coin'},
+                        {route: '/tenant/practice/create', name: '新建活动', icon: 'el-icon-circle-plus-outline'},
+                    ],
+                },
             }
         },
         methods: {
+            /**
+             * 添加快捷入口
+             */
+            addOpp(menu) {
+                let that = this
+                that.sets.hallMenu.push(menu)
+                console.log(that.sets.hallMenu)
+                if (that.sets.hallMenu.length === 5) {
+                    that.showAdd = false
+                } else if (that.sets.hallMenu.length > 5) {
+                    // let type = []
+                    // this.sets.hallType = []
+                    // 如果大于5 去除数组最后一位
+                    that.sets.hallMenu.
+                    // this.sets.hallMenu.forEach(item => {
+                    //     type.push(item)
+                    //     this.sets.hallType.push(item.name)
+                    // })
+                    // type.splice(type.length-1, 1)
+                    // this.sets.hallMenu = type
+                    this.$message({
+                        message: '最多添加5条数据',
+                        type: 'warning'
+                    });
+                } else {
+                    that.showAdd = true
+                }
+            },
             /**
              * 去页面
              */

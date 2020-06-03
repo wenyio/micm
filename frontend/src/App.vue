@@ -22,7 +22,8 @@
       return {
         menus: [
             {index: 1, path: '/home', name: '首页'},
-            {index: 2, path: '/tenant', name: '我的大学'}
+            {index: 2, path: '/tenant', name: '我的大学'},
+            {index: 2, path: '/service', name: '服务大厅'}
         ],
       };
     },
