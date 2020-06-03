@@ -5,14 +5,14 @@
             <el-col :span="5"><div class="grid-content bg-purple">.</div></el-col>
             <el-col :span="4">
                 <div class="grid-content bg-purple">
-                    <el-avatar :size="99" src="https://empty" @error="true">
+                    <el-avatar :size="99" :src="user.avatar" @error="true">
                         <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
                     </el-avatar>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <p><el-link :underline="false">马文艺</el-link></p>
+                    <p><el-link :underline="false">{{userDetail.name}}</el-link></p>
                     <p><el-link :underline="false">软件1713</el-link></p>
                     <p><el-link :underline="false">南京工业职业技术学院</el-link></p>
                 </div>
@@ -23,11 +23,11 @@
                         <div class="count">
                             <div class="count_item">
                                 <p>活动</p>
-                                <p>55</p>
+                                <p>{{count.num}}</p>
                             </div>
                             <div class="count_item">
                                 <p>积分</p>
-                                <p>55</p>
+                                <p>{{count.integral}}</p>
                             </div>
                             <div class="count_item">
                                 <p>贡献</p>
@@ -49,7 +49,7 @@
                             <!-- 快捷入口 -->
                             <div class="cricle">
                                 <div class="container">
-                                    <div class="box" v-for="(menu, index) in sets.hallMenu" :key="index">
+                                    <div class="box" v-for="(menu, index) in sets.hallMenu" :key="index" @click="goPage(menu.route)">
                                         <div class="img">
 <!--                                            <img src="@/assets/icos/录制.png"/>-->
                                             <i :class="menu.icon" style="font-size: 50px;"></i>
@@ -80,16 +80,19 @@
                         </el-tab-pane>
                         <el-tab-pane label="我的活动" name="third">
                             <el-row :gutter="12">
-                                <el-col :span="8" v-for="o in 4" :key="o" style="margin-bottom: 12px;">
+                                <el-col :span="8" v-for="(o, index) in list" :key="index" style="margin-bottom: 12px;">
                                     <el-card class="box-card" shadow="hover">
                                         <div style="display: flex;justify-content: space-around;align-items: center">
                                             <div style="width: 90px">
-                                                <img src="@/assets/logo.png" width="88px" alt="">
+                                                <img :src="o.icon" width="88px" alt="">
                                             </div>
                                             <div style="width: 60%;">
-                                                <h4>标题</h4>
-                                                <el-tag size="mini">超小标签</el-tag>
-                                                <p><el-link :underline="false">2020-20-20 25.20</el-link></p>
+                                                <h4>{{o.title}}</h4>
+                                                <el-tag v-if="o.status == 10" size="mini" type="warning">早退</el-tag>
+                                                <el-tag v-if="o.status == 1" size="mini" type="warning">迟到</el-tag>
+                                                <el-tag v-if="o.status == 0" size="mini" type="danger">缺席</el-tag>
+                                                <el-tag v-if="o.status == 11" size="mini" type="success">完成</el-tag>
+                                                <p><el-link :underline="false">{{o.begin}}</el-link></p>
                                             </div>
                                         </div>
                                     </el-card>
@@ -100,7 +103,7 @@
                             <el-form ref="form" :model="sets" label-width="80px">
                                 <el-form-item label="办事大厅:">
                                     <el-checkbox-group v-model="sets.hallType">
-                                        <el-checkbox :label="menu.name" name="type" v-for="(menu, index) in sets.hallMenus" :key="index"  @change="addOpp(menu)"></el-checkbox>
+                                        <el-checkbox :label="menu.name" name="type" v-for="(menu, index) in sets.hallMenus" :key="index"  @change="addOpp"></el-checkbox>
                                     </el-checkbox-group>
                                 </el-form-item>
                             </el-form>
@@ -114,28 +117,34 @@
 </template>
 
 <script>
+    import { getPracticeIntegral,getPractice,getPracticeNum } from '@/api/practice.js'
+
     export default {
         name: "Index",
         data() {
             return {
+                user: {},
+                userDetail: {},
                 activeName2: 'first',
+                count: {},
+                list: [],
                 sets: {
                     showAdd: true,
                     hallType: ['日程', '我的创建', '活动大厅', '账号中心'],
                     hallMenu: [
-                        {id: '1',route: '', name: '日程', icon: 'el-icon-s-order'},
-                        {id: '2',route: '', name: '我的创建', icon: 'el-icon-guide'},
-                        {id: '3',route: '', name: '活动大厅', icon: 'el-icon-coin'},
-                        {id: '4',route: '', name: '账号中心', icon: 'el-icon-user'},
+                        {id: '1',route: '/user/schedule', name: '日程', icon: 'el-icon-s-order'},
+                        {id: '2',route: '/tenant/practice/myCreate', name: '我的创建', icon: 'el-icon-guide'},
+                        {id: '3',route: '/tenant/practice', name: '活动大厅', icon: 'el-icon-coin'},
+                        {id: '4',route: '/user/account', name: '账号中心', icon: 'el-icon-user'},
                     ],
                     hallMenus: [
-                        {id: '1',route: '', name: '首页', icon: 'el-icon-s-home'},
-                        {id: '2',route: '', name: '服务大厅', icon: 'el-icon-s-goods'},
-                        {id: '3',route: '', name: '日程', icon: 'el-icon-s-order'},
-                        {id: '4',route: '', name: '我的创建', icon: 'el-icon-guide'},
-                        {id: '5',route: '', name: '新建活动', icon: 'el-icon-circle-plus-outline'},
-                        {id: '6',route: '', name: '活动大厅', icon: 'el-icon-coin'},
-                        {id: '7',route: '', name: '账号中心', icon: 'el-icon-user'},
+                        {id: '1',route: '/', name: '首页', icon: 'el-icon-s-home'},
+                        {id: '2',route: '/service', name: '服务大厅', icon: 'el-icon-s-goods'},
+                        {id: '3',route: '/user/schedule', name: '日程', icon: 'el-icon-s-order'},
+                        {id: '4',route: '/tenant/practice/myCreate', name: '我的创建', icon: 'el-icon-guide'},
+                        {id: '5',route: '/tenant/practice/create', name: '新建活动', icon: 'el-icon-circle-plus-outline'},
+                        {id: '6',route: '/tenant/practice', name: '活动大厅', icon: 'el-icon-coin'},
+                        {id: '7',route: '/user/account', name: '账号中心', icon: 'el-icon-user'},
                     ],
                     practiceMenus: [
                         {route: '/tenant/practice/myCreate', name: '我的创建', icon: 'el-icon-guide'},
@@ -145,34 +154,88 @@
                 },
             }
         },
+        created() {
+            this.user = JSON.parse(localStorage.getItem('user'))
+            this.userDetail = JSON.parse(localStorage.getItem('userDetail'))
+            // console.log(this.userDetail)
+            this.getPractice()
+            this.getPracticeIntegral()
+            this.getPracticeNum()
+        },
+        mounted() {
+            if (localStorage.getItem('hallType') != null) {
+                this.sets.hallType = JSON.parse(localStorage.getItem('hallType'))
+                // console.log('初始化时',this.sets.hallType)
+            }
+            this.addOpp()
+        },
         methods: {
+            getPracticeNum() {
+                let that =this
+                getPracticeNum().then (res =>{
+                    // console.log(res)
+                    if(res.code === 20000){
+                        that.count.num = res.data
+                    }
+                })
+            },
+            getPracticeIntegral(){
+                let that =this
+                getPracticeIntegral().then (res =>{
+                    // console.log(res)
+                    if(res.code === 20000){
+                        that.count.integral = res.data
+                    }
+                })
+            },
+            getPractice(){
+                let that = this
+                getPractice().then (res =>{
+                    if (res.code === 20000) {
+                        that.list = res.data
+                        // console.log(that.list)
+                    }
+                })
+            },
             /**
              * 添加快捷入口
              */
-            addOpp(menu) {
-                let that = this
-                that.sets.hallMenu.push(menu)
-                console.log(that.sets.hallMenu)
-                if (that.sets.hallMenu.length === 5) {
-                    that.showAdd = false
-                } else if (that.sets.hallMenu.length > 5) {
-                    // let type = []
-                    // this.sets.hallType = []
-                    // 如果大于5 去除数组最后一位
-                    // that.sets.hallMenu.
-                    // this.sets.hallMenu.forEach(item => {
-                    //     type.push(item)
-                    //     this.sets.hallType.push(item.name)
-                    // })
-                    // type.splice(type.length-1, 1)
-                    // this.sets.hallMenu = type
+            addOpp() {
+                let hallType = this.sets.hallType // 1. 赋值
+
+                if (hallType.length == 5) {
+                    // 如果等于 5 添加选项不显示
+                    this.sets.showAdd = false
+                } else if (hallType.length >= 5) {
+                    // 如果大于5 去除数组最后一位, 添加选项不显示
+                    this.sets.showAdd = false
+                    hallType.splice(hallType.length-1, 1)
                     this.$message({
                         message: '最多添加5条数据',
                         type: 'warning'
                     });
+                    return
                 } else {
-                    that.showAdd = true
+                    this.sets.showAdd = true
                 }
+
+                // 将hallType 存入缓存
+                // console.log('存入缓存', JSON.stringify(hallType))
+                localStorage.setItem('hallType', JSON.stringify(hallType))
+                // 通过 hallType，去hallMenus里 拿hallMenu的值
+                this.sets.hallMenu = [] // 设为空，下面重新取值
+
+                hallType.forEach(type => {
+                    // console.log(type)
+                    this.sets.hallMenus.forEach(menu => {
+                        if (menu.name == type) {
+                            this.sets.hallMenu.push(menu)
+                            // console.log(this.sets.hallMenu)
+                        }
+                    })
+                })
+
+                this.sets.hallType = hallType // 2. 取值
             },
             /**
              * 去页面

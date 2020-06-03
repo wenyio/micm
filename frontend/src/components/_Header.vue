@@ -8,7 +8,7 @@
             </el-menu-item>
             <el-menu-item v-for="menu in menus" :index="menu.path" :key="menu.index">{{menu.name}}</el-menu-item>
             <!--用户已登录-->
-            <div class="user" v-if="true">
+            <div class="user" v-if="login">
                 <!--头像列表-->
                 <router-link target="_blank" to="/user/account" ><li class="user-item account-item">
                     <el-popover
@@ -39,7 +39,7 @@
                 <router-link target="_blank" to="/service"><li class="user-item"><el-button type="primary">订阅</el-button></li></router-link>
             </div>
             <!--        用户未登录-->
-            <div class="user" v-if="false">
+            <div class="user" v-if="!login">
                 <router-link to="/login"><el-button class="user-item" @click="login()">点击登录</el-button></router-link>
             </div>
         </el-menu>
@@ -52,7 +52,8 @@
         props: {
             menus: Array,
             activeIndex: String,
-            showMsg: Boolean
+            showMsg: Boolean,
+            login: Boolean
         },
         methods: {
             handleSelect(key, keyPath) {

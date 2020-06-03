@@ -1,6 +1,6 @@
 <template>
   <div class="container" >
-    <Header :menus="menus" :showMsg="true" :activeIndex="'1'" :login="true"></Header>
+    <Header :menus="menus" :showMsg="true" :activeIndex="'1'" :login="login"></Header>
     <router-view></router-view>
     <Feedback></Feedback>
     <Footer></Footer>
@@ -23,9 +23,23 @@
         menus: [
             {index: 1, path: '/home', name: '首页'},
             {index: 2, path: '/tenant', name: '我的大学'},
-            {index: 2, path: '/service', name: '服务大厅'}
+            {index: 3, path: '/service', name: '服务大厅'}
         ],
+        login: false,
+        user: null,
       };
+    },
+    created() {
+      if (localStorage.getItem('token')) {
+        this.login = true
+        this.user = JSON.parse(localStorage.getItem('user'))
+        if (this.user.tenantId == 0) {
+          this.menus = [
+            {index: 1, path: '/home', name: '首页'},
+            {index: 2, path: '/service', name: '服务大厅'}
+          ]
+        }
+      }
     },
     methods: {
       handleSelect(key, keyPath) {

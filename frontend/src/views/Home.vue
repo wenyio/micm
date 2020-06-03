@@ -18,10 +18,6 @@
               <el-checkbox :label="i" name="type" v-for="i in 16" :key="i"  @change="addOpp"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <!--        <el-form-item>-->
-          <!--          <el-button type="primary">确定</el-button>-->
-          <!--          <el-button>取消</el-button>-->
-          <!--        </el-form-item>-->
         </el-form>
       </div>
     </el-drawer>

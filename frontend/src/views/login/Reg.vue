@@ -9,21 +9,21 @@
                         <h2>用户注册</h2>
                     </div>
                     <br/>
+                    <el-form-item label="用户名">
+                        <el-input  v-model="form.username"></el-input>
+                    </el-form-item>
                     <el-form-item label="邮箱">
-                        <el-input v-model="form.username"></el-input>
+                        <el-input v-model="form.email"></el-input>
                     </el-form-item>
                     <el-form-item label="密码">
                         <el-input type="password" v-model="form.password"></el-input>
-                    </el-form-item>
-                    <el-form-item label="验证码">
-                        <el-input type="password" v-model="form.captcha"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-radio v-model="form.apply" label="1">《校织网用户隐私协议》</el-radio>
                         <el-radio v-model="form.apply" label="0">拒绝</el-radio>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary">注册</el-button>
+                        <el-button type="primary" @click="reg_email">注册</el-button>
                         <el-button @click="$router.push('/login')">登录</el-button>
                     </el-form-item>
                 </el-form>
@@ -34,17 +34,35 @@
 </template>
 
 <script>
+    import { reg } from '@/api/account.js'
+
     export default {
         name: "Reg",
         data() {
             return {
                 form: {
-                    "email": "",
-                    "captcha": "",
-                    "password": "",
-                    "apply": "1"
+                    email: "",
+                    username: "",
+                    password: "",
+                    apply: "1"
                 }
             }
+        },
+        methods: {
+            reg_email() {
+                if (this.form.apply == 1) {
+                    reg(this.form).then(res => {
+                        if (res.code === 20000) {
+                            this.$message.success(res.message)
+                            this.$router.push('/login')
+                        } else {
+                            this.$message.error(res.message)
+                        }
+                    })
+                } else {
+                    this.$message('您没有勾选协议')
+                }
+            },
         }
     }
 </script>

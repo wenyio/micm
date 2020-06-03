@@ -23,7 +23,7 @@
                         <el-radio v-model="form.apply" label="0">拒绝</el-radio>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="onSubmit">登录</el-button>
+                        <el-button type="primary" @click="login_pwd">登录</el-button>
                         <el-button @click="$router.push('/reg')">注册</el-button>
                     </el-form-item>
                 </el-form>
@@ -34,6 +34,10 @@
 </template>
 
 <script>
+    import { login, info } from '@/api/account.js'
+    import { getUserQrCode } from '@/api/user.js'
+    import { detailInfo } from '@/api/practice.js'
+
     export default {
         name: "Login",
         data() {
@@ -43,6 +47,38 @@
                     password: '',
                     apply: '1',
                 }
+            }
+        },
+        methods: {
+            login_pwd() {
+                if (this.form.apply == 1) {
+                    login(this.form).then(res => {
+                        if (res.code === 20000) {
+                            localStorage.setItem("token", res.data.token)
+                            // 存一个用户信息
+                            this.getUserInfo()
+                            getUserQrCode() // 用户的二维码
+                            detailInfo()
+                            this.$router.push('/')
+                        } else {
+                            this.$message.error(res.message)
+                        }
+                    })
+                } else {
+                    this.$message('您没有勾选协议')
+                }
+            },
+            /**
+             * 获取用户信息
+             */
+            getUserInfo() {
+                info().then(res => {
+                    if (res.code === 20000) {
+                        localStorage.setItem("user", JSON.stringify(res.data))
+                    } else {
+                        this.$message.error(res.message)
+                    }
+                })
             }
         }
     }
