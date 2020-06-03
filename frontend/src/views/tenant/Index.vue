@@ -159,7 +159,7 @@
                     // let type = []
                     // this.sets.hallType = []
                     // 如果大于5 去除数组最后一位
-                    that.sets.hallMenu.
+                    // that.sets.hallMenu.
                     // this.sets.hallMenu.forEach(item => {
                     //     type.push(item)
                     //     this.sets.hallType.push(item.name)
