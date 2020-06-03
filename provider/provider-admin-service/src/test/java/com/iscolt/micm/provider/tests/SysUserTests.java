@@ -1,15 +1,8 @@
 package com.iscolt.micm.provider.tests;
 
-import com.iscolt.micm.provider.api.SysUserService;
-import com.iscolt.micm.provider.repository.SysUserRepository;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.annotation.Resource;
 
 /**
  * xx
@@ -26,15 +19,15 @@ import javax.annotation.Resource;
 @RunWith(SpringRunner.class)
 public class SysUserTests {
 
-    @Resource
-    private SysUserService sysUserService;
-
-    @Resource
-    private SysUserRepository sysUserRepository;
-
-    @Test
-    public void findListAllTest() {
-        System.out.println(sysUserRepository.findAll());
-    }
+//    @Resource
+//    private SysUserService sysUserService;
+//
+//    @Resource
+//    private SysUserRepository sysUserRepository;
+//
+//    @Test
+//    public void findListAllTest() {
+//        System.out.println(sysUserRepository.findAll());
+//    }
 
 }

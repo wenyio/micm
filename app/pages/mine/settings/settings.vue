@@ -50,7 +50,7 @@
 		},
 		logout(){
 			let that = this
-			// uni.clearStorage(); // 请除缓存
+			uni.clearStorage(); // 请除缓存
 			logout().then(res => {
 			  let result = res[res.length-1].data
 			  if(result.code === 20000){

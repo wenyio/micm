@@ -1,10 +1,7 @@
 package com.iscolt.micm.business.tests;
 
-import com.iscolt.micm.business.dto.params.ProfileParam;
-import com.iscolt.micm.commons.utils.MapperUtils;
 import org.junit.Test;
 
-import java.sql.Timestamp;
 
 /**
  * xx

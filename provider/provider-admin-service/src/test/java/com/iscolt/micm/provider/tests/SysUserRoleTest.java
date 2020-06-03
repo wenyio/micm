@@ -1,13 +1,9 @@
 package com.iscolt.micm.provider.tests;
 
-import com.iscolt.micm.provider.repository.SysRoleRepository;
-import com.iscolt.micm.provider.repository.SysUserRoleRepository;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 
 /**
  * xx
@@ -24,11 +20,11 @@ import javax.annotation.Resource;
 @RunWith(SpringRunner.class)
 public class SysUserRoleTest {
 
-    @Resource
-    private SysUserRoleRepository sysUserRoleRepository;
-
-    @Test
-    public void deleteByRoleTest() {
-        System.out.println(sysUserRoleRepository.deleteByRoleId(3));
-    }
+//    @Resource
+//    private SysUserRoleRepository sysUserRoleRepository;
+//
+//    @Test
+//    public void deleteByRoleTest() {
+//        System.out.println(sysUserRoleRepository.deleteByRoleId(3));
+//    }
 }
