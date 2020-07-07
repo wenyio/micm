@@ -32,8 +32,8 @@ public class UploadController {
 
     // TODO 阿里ACCESS_KEY等丢到yml中去
     private static final String ENDPOINT = "oss-cn-shanghai.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI4FtzjFUVjYVeoNBKJsuH";
-    private static final String ACCESS_KEY_SECRET = "6R75RRPFSTpsFuUX8BrLjUjv1cMiTP";
+    private static final String ACCESS_KEY_ID = "xx";
+    private static final String ACCESS_KEY_SECRET = "xx";
     private static final String BUCKET_NAME = "micm";
 
     /**
