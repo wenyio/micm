@@ -31,10 +31,10 @@ import java.util.UUID;
 public class UploadController {
 
     // TODO 阿里ACCESS_KEY等丢到yml中去
-    private static final String ENDPOINT = "oss-cn-shanghai.aliyuncs.com";
+    private static final String ENDPOINT = "xx";
     private static final String ACCESS_KEY_ID = "xx";
     private static final String ACCESS_KEY_SECRET = "xx";
-    private static final String BUCKET_NAME = "micm";
+    private static final String BUCKET_NAME = "xx";
 
     /**
      * 文件上传
